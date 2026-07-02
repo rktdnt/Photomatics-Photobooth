@@ -54,14 +54,14 @@ const TemplateSelector: React.FC<Props> = ({
   };
 
   return (
-    <div className="container mx-auto px-6 py-12 min-h-screen">
+    <div className="container mx-auto min-h-screen px-6 py-10 text-ink">
       <div className="flex items-center gap-4 mb-8">
-        <button onClick={onBack} className="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 transition-colors">
+        <button onClick={onBack} className="flex h-12 w-12 items-center justify-center rounded-full bg-warm-cream shadow-lg transition hover:-translate-y-0.5">
           <ChevronLeft className="w-5 h-5" />
         </button>
         <div>
-          <h2 className="text-xs font-mono text-brand-via tracking-widest uppercase mb-1">LANGKAH 01 DARI 03</h2>
-          <h1 className="text-3xl font-display font-bold">Konfigurasi Photostrip</h1>
+          <h2 className="eyebrow mb-1">LANGKAH 01 DARI 03</h2>
+          <h1 className="font-display text-4xl font-black">Konfigurasi Photostrip</h1>
         </div>
       </div>
 
@@ -70,43 +70,42 @@ const TemplateSelector: React.FC<Props> = ({
         <div className="lg:col-span-8 flex flex-col gap-6">
           
           {/* Card 1: Session Mode */}
-          <div className="glass-panel p-6 rounded-2xl">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Sparkles className="w-5 h-5 text-neon-cyan" /> Pilih Mode Sesi</h3>
+          <div className="cream-card rounded-[2rem] p-7">
+            <h3 className="mb-5 flex items-center gap-2 text-xl font-black"><Sparkles className="w-5 h-5 text-soft-ink" /> Pilih Mode Sesi</h3>
             <div className="grid grid-cols-2 gap-4">
               <button 
                 onClick={() => setSessionMode('trial')}
-                className={`p-4 rounded-xl border transition-all text-left ${sessionMode === 'trial' ? 'border-brand-via bg-brand-via/10' : 'border-white/10 hover:border-white/30'}`}
+                className={`rounded-2xl border p-5 text-left transition-all ${sessionMode === 'trial' ? 'border-ink bg-muted-blue/55 shadow-lg' : 'border-ink/10 bg-white/35 hover:border-ink/30'}`}
               >
                 <div className="flex justify-between items-start mb-2">
                   <div className="font-bold">Trial Sesi</div>
-                  {sessionMode === 'trial' && <Check className="w-5 h-5 text-brand-via" />}
+                  {sessionMode === 'trial' && <Check className="w-5 h-5 text-ink" />}
                 </div>
-                <div className="text-sm text-gray-400 mb-2">1 Jepretan, Frame Dasar, Ada Watermark</div>
-                <div className="font-mono text-brand-start font-bold">Rp 0</div>
+                <div className="mb-2 text-sm text-soft-ink">1 Jepretan, Frame Dasar, Ada Watermark</div>
+                <div className="font-mono font-bold text-ink">Rp 0</div>
               </button>
               
               <button 
                 onClick={() => setSessionMode('premium')}
-                className={`p-4 rounded-xl border transition-all text-left relative overflow-hidden ${sessionMode === 'premium' ? 'border-neon-cyan bg-neon-cyan/10' : 'border-white/10 hover:border-white/30'}`}
+                className={`relative overflow-hidden rounded-2xl border p-5 text-left transition-all ${sessionMode === 'premium' ? 'border-ink bg-ink text-warm-cream shadow-lg' : 'border-ink/10 bg-white/35 hover:border-ink/30'}`}
               >
-                {sessionMode === 'premium' && <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 to-brand-start/5" />}
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-2">
                     <div className="font-bold">Premium Sesi</div>
-                    {sessionMode === 'premium' && <Check className="w-5 h-5 text-neon-cyan" />}
+                    {sessionMode === 'premium' && <Check className="w-5 h-5 text-warm-cream" />}
                   </div>
-                  <div className="text-sm text-gray-400 mb-2">Semua Layout, Full Frame, HD Tanpa Watermark</div>
-                  <div className="font-mono text-neon-cyan font-bold">Rp 10.000</div>
+                  <div className={`mb-2 text-sm ${sessionMode === 'premium' ? 'text-warm-cream/70' : 'text-soft-ink'}`}>Semua Layout, Full Frame, HD Tanpa Watermark</div>
+                  <div className="font-mono font-bold">Rp 10.000</div>
                 </div>
               </button>
             </div>
           </div>
 
           {/* Card 2: Layout */}
-          <div className={`glass-panel p-6 rounded-2xl transition-opacity ${sessionMode === 'trial' ? 'opacity-50 pointer-events-none' : ''}`}>
+          <div className={`cream-card rounded-[2rem] p-7 transition-opacity ${sessionMode === 'trial' ? 'opacity-55 pointer-events-none' : ''}`}>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold flex items-center gap-2"><LayoutIcon className="w-5 h-5 text-brand-via" /> Pilih Layout</h3>
-              {sessionMode === 'trial' && <span className="text-xs text-brand-start font-mono bg-brand-start/20 px-2 py-1 rounded">TERKUNCI DI TRIAL</span>}
+              <h3 className="flex items-center gap-2 text-xl font-black"><LayoutIcon className="w-5 h-5 text-soft-ink" /> Pilih Layout</h3>
+              {sessionMode === 'trial' && <span className="rounded-full bg-muted-blue px-3 py-1 font-mono text-xs font-bold text-ink">TERKUNCI DI TRIAL</span>}
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -114,16 +113,16 @@ const TemplateSelector: React.FC<Props> = ({
                 <button
                   key={layout.id}
                   onClick={() => setSelectedLayout(layout)}
-                  className={`flex flex-col items-center gap-3 p-4 rounded-xl border transition-all ${selectedLayout.id === layout.id ? 'border-brand-via bg-brand-via/10' : 'border-white/10 hover:border-white/30'}`}
+                  className={`flex flex-col items-center gap-3 rounded-2xl border p-4 transition-all ${selectedLayout.id === layout.id ? 'border-ink bg-muted-blue/55' : 'border-ink/10 bg-white/35 hover:border-ink/30'}`}
                 >
-                  <div className="w-16 h-16 bg-white/5 rounded border border-white/10 p-2 flex flex-col gap-1">
+                  <div className="flex h-16 w-16 flex-col gap-1 rounded-xl border border-ink/10 bg-warm-cream p-2">
                     {/* Visual representation of layout */}
-                    {layout.id === 'single-1' && <div className="w-full h-full bg-gray-500 rounded-sm" />}
-                    {layout.id === 'classic-3' && Array(3).fill(0).map((_, i) => <div key={i} className="w-full flex-1 bg-gray-500 rounded-sm" />)}
-                    {layout.id === 'strip-4' && Array(4).fill(0).map((_, i) => <div key={i} className="w-full flex-1 bg-gray-500 rounded-sm" />)}
+                    {layout.id === 'single-1' && <div className="w-full h-full bg-muted-blue rounded-sm" />}
+                    {layout.id === 'classic-3' && Array(3).fill(0).map((_, i) => <div key={i} className="w-full flex-1 bg-muted-blue rounded-sm" />)}
+                    {layout.id === 'strip-4' && Array(4).fill(0).map((_, i) => <div key={i} className="w-full flex-1 bg-muted-blue rounded-sm" />)}
                     {layout.id === 'grid-4' && (
                       <div className="w-full h-full grid grid-cols-2 grid-rows-2 gap-1">
-                        {Array(4).fill(0).map((_, i) => <div key={i} className="w-full h-full bg-gray-500 rounded-sm" />)}
+                        {Array(4).fill(0).map((_, i) => <div key={i} className="w-full h-full bg-muted-blue rounded-sm" />)}
                       </div>
                     )}
                   </div>
@@ -136,8 +135,8 @@ const TemplateSelector: React.FC<Props> = ({
           </div>
 
           {/* Card 3: Frame */}
-          <div className="glass-panel p-6 rounded-2xl">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Frame className="w-5 h-5 text-neon-cyan" /> Pilih Frame Awal</h3>
+          <div className="cream-card rounded-[2rem] p-7">
+            <h3 className="mb-5 flex items-center gap-2 text-xl font-black"><Frame className="w-5 h-5 text-soft-ink" /> Pilih Frame Awal</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {FRAMES.map(frame => {
                 const isLocked = sessionMode === 'trial' && frame.id !== 'sleek-minimalist';
@@ -145,14 +144,14 @@ const TemplateSelector: React.FC<Props> = ({
                   <button
                     key={frame.id}
                     onClick={() => !isLocked && setSelectedFrame(frame)}
-                    className={`p-3 rounded-xl border transition-all text-left flex items-center gap-3 relative ${isLocked ? 'opacity-50 cursor-not-allowed' : selectedFrame.id === frame.id ? 'border-brand-via bg-brand-via/10' : 'border-white/10 hover:border-white/30'}`}
+                    className={`relative flex items-center gap-3 rounded-2xl border p-4 text-left transition-all ${isLocked ? 'cursor-not-allowed opacity-45' : selectedFrame.id === frame.id ? 'border-ink bg-muted-blue/55' : 'border-ink/10 bg-white/35 hover:border-ink/30'}`}
                   >
                     <div className="w-8 h-8 rounded-full shadow-inner flex-shrink-0 border border-white/20" style={{ backgroundColor: frame.bgColor }} />
                     <div className="flex-1 truncate">
                       <div className="text-sm font-bold truncate">{frame.name}</div>
-                      {isLocked && <div className="text-[10px] text-gray-400 mt-1">Premium Only</div>}
+                      {isLocked && <div className="mt-1 text-[10px] text-soft-ink">Premium Only</div>}
                     </div>
-                    {selectedFrame.id === frame.id && <Check className="w-4 h-4 text-brand-via absolute right-3" />}
+                    {selectedFrame.id === frame.id && <Check className="absolute right-3 w-4 h-4 text-ink" />}
                   </button>
                 );
               })}
@@ -163,15 +162,15 @@ const TemplateSelector: React.FC<Props> = ({
 
         {/* Kanan: Live Preview (4 col, sticky) */}
         <div className="lg:col-span-4 relative">
-          <div className="sticky top-24 glass-panel p-6 rounded-2xl border-brand-via/30 flex flex-col items-center">
-            <h3 className="text-sm font-mono text-gray-400 mb-6 w-full text-center tracking-widest">LIVE PREVIEW</h3>
+          <div className="cream-card sticky top-24 flex flex-col items-center rounded-[2rem] p-7">
+            <h3 className="eyebrow mb-6 w-full text-center">LIVE PREVIEW</h3>
             
             {/* The Strip Preview */}
             <motion.div 
               layout
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="w-full max-w-[200px] shadow-2xl relative p-4"
+              className="relative w-full max-w-[220px] rounded-[1.5rem] p-4 shadow-2xl"
               style={{ backgroundColor: selectedFrame.bgColor }}
             >
               {selectedFrame.pattern === 'radial-dot' && (
@@ -182,7 +181,7 @@ const TemplateSelector: React.FC<Props> = ({
                 {Array(sessionMode === 'trial' ? 1 : selectedLayout.rows * selectedLayout.cols).fill(0).map((_, i) => (
                   <div 
                     key={i} 
-                    className={`bg-gray-200/20 backdrop-blur-sm rounded-sm overflow-hidden relative ${selectedLayout.id === 'grid-4' ? 'w-[calc(50%-4px)] aspect-square' : 'w-full aspect-[4/3]'} border border-white/10 flex items-center justify-center`}
+                    className={`relative flex items-center justify-center overflow-hidden rounded-xl bg-muted-blue/30 ${selectedLayout.id === 'grid-4' ? 'w-[calc(50%-4px)] aspect-square' : 'w-full aspect-[4/3]'} border border-ink/10`}
                   >
                     {i === 0 ? (
                       <video ref={videoRef} autoPlay playsInline muted className="absolute inset-0 w-full h-full object-cover transform -scale-x-100" />
@@ -200,14 +199,14 @@ const TemplateSelector: React.FC<Props> = ({
             
             <div className="w-full mt-8 pt-6 border-t border-white/10">
               <div className="flex justify-between items-center mb-6">
-                <span className="text-gray-400 text-sm">Total Tagihan</span>
-                <span className="text-xl font-bold font-mono text-neon-cyan">
+                <span className="text-sm text-soft-ink">Total Tagihan</span>
+                <span className="font-mono text-xl font-bold text-ink">
                   Rp {sessionMode === 'trial' ? '0' : '10.000'}
                 </span>
               </div>
               <button 
                 onClick={handleNext}
-                className="w-full py-4 rounded-xl shimmer-btn font-bold flex items-center justify-center gap-2 shadow-lg shadow-brand-via/20"
+                className="soft-btn-primary flex w-full items-center justify-center gap-2 rounded-full py-4 font-black"
               >
                 Lanjutkan ke Photobooth <ChevronRight className="w-5 h-5" />
               </button>

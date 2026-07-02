@@ -310,22 +310,22 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
   };
 
   return (
-    <div className="container mx-auto px-6 py-8 min-h-screen flex flex-col">
+    <div className="container mx-auto flex min-h-screen flex-col px-6 py-8 text-ink">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-4">
-          <button onClick={onBack} className="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 transition-colors">
+          <button onClick={onBack} className="flex h-12 w-12 items-center justify-center rounded-full bg-warm-cream shadow-lg transition hover:-translate-y-0.5">
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div>
-            <h2 className="text-xs font-mono text-brand-via tracking-widest uppercase mb-1">LANGKAH 03 DARI 03</h2>
-            <h1 className="text-2xl font-display font-bold">Hias & Kustomisasi Foto</h1>
+            <h2 className="eyebrow mb-1">LANGKAH 03 DARI 03</h2>
+            <h1 className="font-display text-4xl font-black">Hias & Kustomisasi Foto</h1>
           </div>
         </div>
 
         <button 
           onClick={compilePhotostrip}
           disabled={isCompiling}
-          className="shimmer-btn px-6 py-2.5 rounded-full font-bold text-sm flex items-center gap-2"
+          className="soft-btn-primary flex items-center gap-2 rounded-full px-6 py-3 text-sm font-black"
         >
           {isCompiling ? 'Memproses...' : (
             <><Download className="w-4 h-4" /> Simpan & Export</>
@@ -335,10 +335,10 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
 
       <div className="flex-1 grid lg:grid-cols-12 gap-8">
         {/* Kiri: Live DOM Preview (6 col) */}
-        <div className="lg:col-span-6 flex justify-center bg-black/20 rounded-3xl p-8 border border-white/5 overflow-y-auto max-h-[70vh]">
+        <div className="blue-card flex max-h-[74vh] justify-center overflow-y-auto rounded-[2.5rem] p-8">
           <div 
             ref={containerRef}
-            className="w-full max-w-[300px] relative shadow-2xl transition-colors duration-500 overflow-hidden touch-none"
+            className="relative w-full max-w-[300px] touch-none overflow-hidden rounded-[1.75rem] shadow-2xl transition-colors duration-500"
             style={{ 
               backgroundColor: selectedFrame.bgColor,
               aspectRatio: layout.id === 'single-1' ? '1/1.13' : layout.id === 'grid-4' ? '1/1.2' : '1/2.6',
@@ -353,7 +353,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
               {photos.map((p, i) => (
                 <div 
                   key={i} 
-                  className={`relative overflow-hidden border border-white/10 ${layout.id === 'grid-4' ? 'w-[calc(50%-4px)] aspect-square' : 'w-full aspect-[4/3]'}`}
+                  className={`relative overflow-hidden rounded-xl border border-ink/10 ${layout.id === 'grid-4' ? 'w-[calc(50%-4px)] aspect-square' : 'w-full aspect-[4/3]'}`}
                 >
                   <img src={p.dataUrl} className={`w-full h-full object-cover transform -scale-x-100 ${selectedFilter.className}`} alt={`p-${i}`} />
                 </div>
@@ -399,9 +399,9 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
         </div>
 
         {/* Kanan: Editor Tools (6 col) */}
-        <div className="lg:col-span-6 glass-panel rounded-3xl overflow-hidden flex flex-col">
+        <div className="cream-card flex flex-col overflow-hidden rounded-[2.5rem] lg:col-span-6">
           {/* Tabs */}
-          <div className="flex border-b border-white/10">
+          <div className="flex border-b border-ink/10">
             {[
               { id: 'filter', icon: ImageIcon, label: 'Filter Warna' },
               { id: 'sticker', icon: Smile, label: 'Stiker Lucu' },
@@ -412,7 +412,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 py-4 flex flex-col items-center gap-1 text-xs font-bold transition-colors ${activeTab === tab.id ? 'bg-white/10 text-brand-via border-b-2 border-brand-via' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
+                className={`flex-1 py-4 flex flex-col items-center gap-1 text-xs font-black transition-colors ${activeTab === tab.id ? 'bg-muted-blue/50 text-ink border-b-2 border-ink' : 'text-soft-ink hover:bg-white/35 hover:text-ink'}`}
               >
                 <tab.icon className="w-5 h-5" />
                 {tab.label}
@@ -429,14 +429,14 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
                   <button
                     key={filter.id}
                     onClick={() => setSelectedFilter(filter)}
-                    className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all ${selectedFilter.id === filter.id ? 'border-brand-via bg-brand-via/10' : 'border-white/10 hover:border-white/30'}`}
+                    className={`flex flex-col items-center gap-2 rounded-2xl border p-3 transition-all ${selectedFilter.id === filter.id ? 'border-ink bg-muted-blue/50' : 'border-ink/10 bg-white/35 hover:border-ink/30'}`}
                   >
-                    <div className="w-full aspect-square bg-gray-800 rounded-lg overflow-hidden">
+                    <div className="aspect-square w-full overflow-hidden rounded-xl bg-muted-blue">
                        <img src={photos[0]?.dataUrl} className={`w-full h-full object-cover ${filter.className}`} alt="preview" />
                     </div>
                     <div className="text-center">
                       <div className="text-sm font-bold truncate w-full">{filter.name}</div>
-                      <div className="text-[10px] text-gray-500 mt-1">{filter.description}</div>
+                      <div className="mt-1 text-[10px] text-soft-ink">{filter.description}</div>
                     </div>
                   </button>
                 ))}
@@ -451,7 +451,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
                     <button
                       key={sticker.id}
                       onClick={() => handleAddSticker(sticker)}
-                      className="aspect-square glass-panel rounded-xl text-3xl flex items-center justify-center hover:scale-110 hover:bg-white/10 transition-all"
+                      className="flex aspect-square items-center justify-center rounded-2xl bg-white/40 text-3xl transition-all hover:scale-105 hover:bg-muted-blue/40"
                     >
                       {sticker.emoji}
                     </button>
@@ -460,9 +460,9 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
                 
                 {placedStickers.length > 0 && (
                   <div className="space-y-4">
-                    <h4 className="text-sm font-bold text-gray-400 mb-2 uppercase">Layer Stiker</h4>
+                    <h4 className="mb-2 text-sm font-black uppercase text-soft-ink">Layer Stiker</h4>
                     {placedStickers.map((s, idx) => (
-                      <div key={s.id} className="bg-white/5 p-4 rounded-xl flex flex-col gap-3">
+                      <div key={s.id} className="flex flex-col gap-3 rounded-2xl bg-white/40 p-4">
                         <div className="flex justify-between items-center">
                           <span className="text-2xl">{s.emoji}</span>
                           <button onClick={() => setPlacedStickers(prev => prev.filter(item => item.id !== s.id))} className="text-red-400 hover:text-red-300">
@@ -499,18 +499,18 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
                     value={inputText}
                     onChange={e => setInputText(e.target.value)}
                     placeholder="Tulis sesuatu..."
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-via font-sans"
+                    className="flex-1 rounded-2xl border border-ink/10 bg-white/55 px-4 py-3 font-sans focus:border-ink focus:outline-none"
                   />
-                  <button onClick={handleAddText} disabled={!inputText.trim()} className="bg-brand-via px-6 rounded-xl font-bold hover:bg-brand-end disabled:opacity-50">
+                  <button onClick={handleAddText} disabled={!inputText.trim()} className="rounded-2xl bg-ink px-6 font-black text-warm-cream disabled:opacity-50">
                     Tambah
                   </button>
                 </div>
                 
                 {texts.length > 0 && (
                   <div className="space-y-4">
-                    <h4 className="text-sm font-bold text-gray-400 mb-2 uppercase">Layer Teks</h4>
+                    <h4 className="mb-2 text-sm font-black uppercase text-soft-ink">Layer Teks</h4>
                     {texts.map((t, idx) => (
-                      <div key={t.id} className="bg-white/5 p-4 rounded-xl flex flex-col gap-3">
+                      <div key={t.id} className="flex flex-col gap-3 rounded-2xl bg-white/40 p-4">
                         <div className="flex justify-between items-center">
                           <span className="font-display font-bold truncate" style={{ color: t.color }}>{t.text}</span>
                           <button onClick={() => setTexts(prev => prev.filter(item => item.id !== t.id))} className="text-red-400 hover:text-red-300">
@@ -531,16 +531,16 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
                               onChange={(e) => {
                                 const newT = [...texts]; newT[idx].fontFamily = e.target.value; setTexts(newT);
                               }}
-                              className="w-full bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-xs text-white focus:outline-none focus:border-brand-via mt-1 appearance-none cursor-pointer"
+                              className="mt-1 w-full cursor-pointer appearance-none rounded-lg border border-ink/10 bg-white/55 px-2 py-1 text-xs text-ink focus:border-ink focus:outline-none"
                               style={{ fontFamily: t.fontFamily }}
                             >
-                              <option className="bg-gray-900" value="Outfit" style={{ fontFamily: 'Outfit' }}>Outfit (Modern)</option>
-                              <option className="bg-gray-900" value="sans-serif" style={{ fontFamily: 'sans-serif' }}>Sans Serif</option>
-                              <option className="bg-gray-900" value="serif" style={{ fontFamily: 'serif' }}>Serif</option>
-                              <option className="bg-gray-900" value="monospace" style={{ fontFamily: 'monospace' }}>Monospace</option>
-                              <option className="bg-gray-900" value="cursive" style={{ fontFamily: 'cursive' }}>Cursive</option>
-                              <option className="bg-gray-900" value="Impact" style={{ fontFamily: 'Impact' }}>Impact</option>
-                              <option className="bg-gray-900" value="'Comic Sans MS', cursive" style={{ fontFamily: "'Comic Sans MS', cursive" }}>Comic Sans</option>
+                              <option value="Outfit" style={{ fontFamily: 'Outfit' }}>Outfit (Modern)</option>
+                              <option value="sans-serif" style={{ fontFamily: 'sans-serif' }}>Sans Serif</option>
+                              <option value="serif" style={{ fontFamily: 'serif' }}>Serif</option>
+                              <option value="monospace" style={{ fontFamily: 'monospace' }}>Monospace</option>
+                              <option value="cursive" style={{ fontFamily: 'cursive' }}>Cursive</option>
+                              <option value="Impact" style={{ fontFamily: 'Impact' }}>Impact</option>
+                              <option value="'Comic Sans MS', cursive" style={{ fontFamily: "'Comic Sans MS', cursive" }}>Comic Sans</option>
                             </select>
                           </div>
                           <div className="col-span-2">
@@ -575,7 +575,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
                   <button
                     key={frame.id}
                     onClick={() => setSelectedFrame(frame)}
-                    className={`flex items-center gap-3 p-4 rounded-xl border transition-all text-left ${selectedFrame.id === frame.id ? 'border-brand-via bg-brand-via/10' : 'border-white/10 hover:border-white/30'}`}
+                    className={`flex items-center gap-3 rounded-2xl border p-4 text-left transition-all ${selectedFrame.id === frame.id ? 'border-ink bg-muted-blue/50' : 'border-ink/10 bg-white/35 hover:border-ink/30'}`}
                   >
                     <div className="w-10 h-10 rounded-full shadow-inner border border-white/20 flex-shrink-0" style={{ backgroundColor: frame.bgColor }} />
                     <div>
@@ -589,18 +589,18 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
             {/* Custom Mascot Tab */}
             {activeTab === 'custom' && (
               <div>
-                <h4 className="text-sm font-bold text-gray-400 mb-4 uppercase">Mascot / Custom Logo</h4>
+                <h4 className="mb-4 text-sm font-black uppercase text-soft-ink">Mascot / Custom Logo</h4>
                 {sessionMode !== 'premium' ? (
-                  <div className="flex flex-col items-center justify-center p-8 bg-white/5 rounded-xl border border-white/10 text-center">
-                    <Crown className="w-12 h-12 text-gray-500 mb-3" />
-                    <p className="text-sm font-bold text-gray-300">Fitur Premium</p>
-                    <p className="text-xs text-gray-500 mt-2 max-w-xs">Upgrade ke Premium Sesi untuk menambahkan logo custom, karakter anime, atau gambar Anda sendiri di pojok photostrip.</p>
+                  <div className="flex flex-col items-center justify-center rounded-2xl border border-ink/10 bg-white/40 p-8 text-center">
+                    <Crown className="mb-3 h-12 w-12 text-soft-ink" />
+                    <p className="text-sm font-black text-ink">Fitur Premium</p>
+                    <p className="mt-2 max-w-xs text-xs text-soft-ink">Upgrade ke Premium Sesi untuk menambahkan logo custom, karakter anime, atau gambar Anda sendiri di pojok photostrip.</p>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center p-6 bg-white/5 rounded-xl border border-brand-via/30 border-dashed">
+                  <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-ink/20 bg-white/40 p-6">
                     {!customImage ? (
                       <>
-                        <label className="cursor-pointer bg-brand-via px-6 py-2.5 rounded-full font-bold hover:bg-brand-end transition text-sm flex items-center gap-2">
+                        <label className="flex cursor-pointer items-center gap-2 rounded-full bg-ink px-6 py-2.5 text-sm font-black text-warm-cream transition">
                           <ImageIcon className="w-4 h-4" /> Pilih Gambar
                           <input type="file" accept="image/png, image/jpeg" className="hidden" onChange={(e) => {
                             const file = e.target.files?.[0];

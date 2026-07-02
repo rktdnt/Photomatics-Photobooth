@@ -232,15 +232,15 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
   ];
 
   return (
-    <div className="container mx-auto px-6 py-8 min-h-screen flex flex-col">
+    <div className="container mx-auto flex min-h-screen flex-col px-6 py-8 text-ink">
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-4">
-          <button onClick={onBack} disabled={isCapturing} className="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-white/10 transition-colors disabled:opacity-50">
+          <button onClick={onBack} disabled={isCapturing} className="flex h-12 w-12 items-center justify-center rounded-full bg-warm-cream shadow-lg transition hover:-translate-y-0.5 disabled:opacity-50">
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div>
-            <h2 className="text-xs font-mono text-neon-cyan tracking-widest uppercase mb-1">LANGKAH 02 DARI 03</h2>
-            <h1 className="text-2xl font-display font-bold">Ambil Foto</h1>
+            <h2 className="eyebrow mb-1">LANGKAH 02 DARI 03</h2>
+            <h1 className="font-display text-4xl font-black">Ambil Foto</h1>
           </div>
         </div>
 
@@ -248,7 +248,7 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
           <button 
             onClick={() => setIsVirtual(!isVirtual)}
             disabled={isCapturing}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold border transition-colors ${isVirtual ? 'border-brand-via text-brand-via bg-brand-via/10' : 'border-white/10 text-gray-400 hover:text-white'}`}
+            className={`flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-black transition-colors ${isVirtual ? 'border-ink bg-ink text-warm-cream' : 'border-ink/10 bg-warm-cream text-soft-ink hover:text-ink'}`}
           >
             {isVirtual ? <MonitorOff className="w-4 h-4" /> : <MonitorPlay className="w-4 h-4" />}
             {isVirtual ? 'Virtual Mode' : 'Kamera Asli'}
@@ -259,7 +259,7 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
       <div className="flex-1 grid lg:grid-cols-12 gap-8">
         {/* Main Camera View (8 col) */}
         <div className="lg:col-span-8 flex flex-col gap-6">
-          <div className="relative aspect-[4/3] bg-black rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-[2.5rem] border border-ink/10 bg-ink shadow-2xl shadow-ink/15">
             {flash && <div className="camera-flash" />}
             
             {isVirtual ? (
@@ -287,7 +287,7 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
                   exit={{ opacity: 0, scale: 1.5 }}
                   className="absolute inset-0 flex items-center justify-center z-20"
                 >
-                  <span className="text-[150px] font-display font-bold text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]">
+                  <span className="text-[150px] font-display font-black text-warm-cream drop-shadow-[0_0_20px_rgba(0,0,0,0.45)]">
                     {countdown === 0 ? '📸' : countdown}
                   </span>
                 </motion.div>
@@ -298,7 +298,7 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
           </div>
 
           {/* Filters List */}
-          <div className="glass-panel p-4 rounded-2xl overflow-x-auto">
+          <div className="blue-card overflow-x-auto rounded-[2rem] p-4">
             <div className="flex gap-4 min-w-max">
               {FILTERS.map(filter => (
                 <button
@@ -307,14 +307,14 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
                   disabled={isCapturing}
                   className={`flex flex-col items-center gap-2 w-24 flex-shrink-0 transition-transform ${selectedFilter.id === filter.id ? 'scale-105' : 'hover:scale-105'}`}
                 >
-                  <div className={`w-16 h-16 rounded-xl overflow-hidden border-2 ${selectedFilter.id === filter.id ? 'border-brand-via' : 'border-transparent'}`}>
+                  <div className={`h-16 w-16 overflow-hidden rounded-xl border-2 ${selectedFilter.id === filter.id ? 'border-ink' : 'border-transparent'}`}>
                     <img 
                       src={virtualImages[0]} 
                       className={`w-full h-full object-cover ${filter.className}`} 
                       alt={filter.name} 
                     />
                   </div>
-                  <span className={`text-[10px] font-bold text-center ${selectedFilter.id === filter.id ? 'text-brand-via' : 'text-gray-400'}`}>
+                  <span className={`text-center text-[10px] font-black ${selectedFilter.id === filter.id ? 'text-ink' : 'text-ink/60'}`}>
                     {filter.name}
                   </span>
                 </button>
@@ -325,24 +325,24 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
 
         {/* Right Panel: Progress & Actions (4 col) */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          <div className="glass-panel p-6 rounded-2xl flex-1 flex flex-col">
+          <div className="cream-card flex flex-1 flex-col rounded-[2rem] p-7">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="font-bold text-lg">Progres Sesi</h3>
-              <div className="text-neon-cyan font-mono font-bold bg-neon-cyan/10 px-3 py-1 rounded-full text-sm">
+              <h3 className="text-2xl font-black">Progres Sesi</h3>
+              <div className="rounded-full bg-muted-blue px-3 py-1 font-mono text-sm font-bold text-ink">
                 {photos.length} / {totalPhotos}
               </div>
             </div>
 
             {/* Timer Selection */}
             <div className="mb-6">
-              <label className="text-xs font-mono text-gray-400 mb-2 block">DURASI TIMER</label>
+              <label className="eyebrow mb-2 block">DURASI TIMER</label>
               <div className="flex gap-2">
                 {[3, 5, 10].map(t => (
                   <button
                     key={t}
                     onClick={() => setTimerDuration(t)}
                     disabled={isCapturing}
-                    className={`flex-1 py-2 rounded-lg text-sm font-bold border transition-colors ${timerDuration === t ? 'border-brand-via bg-brand-via/20 text-white' : 'border-white/10 text-gray-400 hover:text-white hover:border-white/30'}`}
+                    className={`flex-1 rounded-xl border py-3 text-sm font-black transition-colors ${timerDuration === t ? 'border-ink bg-muted-blue text-ink' : 'border-ink/10 bg-white/35 text-soft-ink hover:border-ink/30 hover:text-ink'}`}
                   >
                     {t}s
                   </button>
@@ -354,7 +354,7 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
             {!isCapturing && photos.length < totalPhotos && (
               <button
                 onClick={startCaptureSequence}
-                className="w-full py-4 rounded-xl shimmer-btn font-bold flex items-center justify-center gap-2 text-lg shadow-lg shadow-brand-via/20 mb-6"
+                className="soft-btn-primary mb-6 flex w-full items-center justify-center gap-2 rounded-full py-4 text-lg font-black"
               >
                 <Camera className="w-6 h-6" />
                 Mulai Jepret Otomatis
@@ -362,21 +362,21 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
             )}
 
             {isCapturing && (
-              <div className="w-full py-4 rounded-xl bg-red-500/20 border border-red-500 text-red-500 font-bold flex items-center justify-center gap-2 text-lg mb-6 animate-pulse">
+              <div className="mb-6 flex w-full animate-pulse items-center justify-center gap-2 rounded-full border border-ink bg-ink/10 py-4 text-lg font-black text-ink">
                 <div className="w-3 h-3 rounded-full bg-red-500" />
                 Sesi Berjalan...
               </div>
             )}
 
             {/* Thumbnails Grid */}
-            <div className="flex-1 min-h-[200px] bg-black/30 rounded-xl p-4 border border-white/5">
+            <div className="min-h-[200px] flex-1 rounded-[1.5rem] border border-ink/10 bg-cloud-white/60 p-4">
               <div className={`grid gap-2 ${layout.id === 'grid-4' ? 'grid-cols-2' : layout.id === 'single-1' ? 'grid-cols-1' : 'grid-cols-2'}`}>
                 {Array(totalPhotos).fill(0).map((_, i) => (
-                  <div key={i} className="aspect-[4/3] bg-white/5 rounded border border-white/10 overflow-hidden relative flex items-center justify-center">
+                  <div key={i} className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-ink/10 bg-warm-cream">
                     {photos[i] ? (
                       <img src={photos[i].dataUrl} className={`w-full h-full object-cover transform -scale-x-100 ${selectedFilter.className}`} alt={`Shot ${i+1}`} />
                     ) : (
-                      <span className="text-white/20 font-display font-bold text-2xl">{i + 1}</span>
+                      <span className="font-display text-2xl font-black text-ink/25">{i + 1}</span>
                     )}
                   </div>
                 ))}
@@ -388,7 +388,7 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
               <button
                 onClick={() => setPhotos([])}
                 disabled={isCapturing || photos.length === 0}
-                className="w-full py-3 rounded-xl border border-white/20 font-bold flex items-center justify-center gap-2 hover:bg-white/5 transition-colors disabled:opacity-50"
+                className="soft-btn-secondary flex w-full items-center justify-center gap-2 rounded-full py-3 font-black disabled:opacity-50"
               >
                 <RefreshCw className="w-4 h-4" /> Foto Ulang
               </button>
@@ -396,7 +396,7 @@ const Photobooth: React.FC<Props> = ({ layout, onBack, onPhotosCaptured }) => {
               <button
                 onClick={() => onPhotosCaptured(photos)}
                 disabled={photos.length < totalPhotos || isCapturing}
-                className="w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 text-lg disabled:opacity-50 transition-all shadow-lg bg-gradient-to-r from-green-500 to-emerald-500 hover:scale-[1.02]"
+                className="soft-btn-primary flex w-full items-center justify-center gap-2 rounded-full py-4 text-lg font-black transition-all disabled:opacity-50"
               >
                 <Sparkles className="w-5 h-5" />
                 Hias & Kustomisasi Foto

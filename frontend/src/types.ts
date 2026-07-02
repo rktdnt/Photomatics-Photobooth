@@ -75,12 +75,12 @@ export const LAYOUTS: PhotostripLayout[] = [
 ];
 
 export const FRAMES: PhotoFrame[] = [
-  { id: 'sleek-minimalist', name: 'Sleek Minimalist', bgColor: '#FFFFFF', textColor: '#0F172A', borderClass: 'border-[#FFFFFF]', accentColor: '#94a3b8', description: 'Bersih dan modern' },
-  { id: 'obsidian-matte', name: 'Obsidian Matte', bgColor: '#09090B', textColor: '#FAFAFA', borderClass: 'border-[#09090B]', accentColor: '#3f3f46', description: 'Elegan, gelap, memukau' },
-  { id: 'tokyo-cyber', name: 'Tokyo Cyber Neon', bgColor: '#030712', textColor: '#00E5FF', borderClass: 'border-[#030712]', accentColor: '#00E5FF', pattern: 'radial-dot', description: 'Futuristik dengan sentuhan neon' },
-  { id: 'kpop-sweetheart', name: 'K-Pop Sweetheart', bgColor: '#FCE7F3', textColor: '#DB2777', borderClass: 'border-[#FCE7F3]', accentColor: '#f472b6', description: 'Pink ceria ala idol' },
-  { id: 'vintage-kodak', name: 'Vintage Kodak 1995', bgColor: '#FAF7F0', textColor: '#854D0E', borderClass: 'border-[#FAF7F0]', accentColor: '#ca8a04', description: 'Nuansa nostalgia kamera analog' },
-  { id: 'lavender-aurora', name: 'Lavender Aurora', bgColor: '#FAF5FF', textColor: '#7C3AED', borderClass: 'border-[#FAF5FF]', accentColor: '#a78bfa', description: 'Estetik ungu yang menenangkan' },
+  { id: 'sleek-minimalist', name: 'Cloud White', bgColor: '#DCDADB', textColor: '#252631', borderClass: 'border-[#DCDADB]', accentColor: '#B2B5C9', description: 'Putih awan yang clean' },
+  { id: 'obsidian-matte', name: 'Muted Blue', bgColor: '#B2B5C9', textColor: '#252631', borderClass: 'border-[#B2B5C9]', accentColor: '#F5E8D8', description: 'Biru lembut dan tenang' },
+  { id: 'tokyo-cyber', name: 'Warm Cream', bgColor: '#F5E8D8', textColor: '#252631', borderClass: 'border-[#F5E8D8]', accentColor: '#B2B5C9', description: 'Cream hangat seperti studio' },
+  { id: 'kpop-sweetheart', name: 'Blue Dot Cream', bgColor: '#F5E8D8', textColor: '#252631', borderClass: 'border-[#F5E8D8]', accentColor: '#B2B5C9', pattern: 'radial-dot', description: 'Cream dengan tekstur halus' },
+  { id: 'vintage-kodak', name: 'Soft Contrast', bgColor: '#252631', textColor: '#F5E8D8', borderClass: 'border-[#252631]', accentColor: '#B2B5C9', description: 'Aksen gelap untuk premium' },
+  { id: 'lavender-aurora', name: 'Cloud Cream', bgColor: '#FBF7EF', textColor: '#252631', borderClass: 'border-[#FBF7EF]', accentColor: '#DCDADB', description: 'Netral dan airy' },
 ];
 
 export const FILTERS: PhotoFilter[] = [

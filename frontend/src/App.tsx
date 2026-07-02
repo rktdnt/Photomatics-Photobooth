@@ -32,15 +32,9 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-bg-cosmic text-white font-sans selection:bg-neon-purple selection:text-white relative">
-      {/* Global cosmic background elements */}
-      <div className="fixed inset-0 z-[-2] overflow-hidden pointer-events-none">
-        <div className="cyber-grid" />
-      </div>
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[-1] overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-start/20 blur-[100px] animate-pulse-glow" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-neon-cyan/20 blur-[100px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
-      </div>
+    <div className="app-shell font-sans selection:bg-muted-blue selection:text-ink">
+      <div className="soft-orb one" />
+      <div className="soft-orb two" />
 
       {view === 'landing' && (
         <LandingPage onNext={() => navigateTo('selector')} />
