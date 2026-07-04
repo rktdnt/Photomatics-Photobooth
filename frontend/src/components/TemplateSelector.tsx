@@ -202,7 +202,7 @@ const TemplateSelector: React.FC<Props> = ({
                 onClick={handleNext}
                 className="soft-btn-primary flex w-full items-center justify-center gap-2 rounded-full py-4 font-black"
               >
-                Lanjutkan ke Photobooth <ChevronRight className="w-5 h-5" />
+                Gaskeun ke Photobooth! 🚀 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -257,10 +257,10 @@ const TemplateSelector: React.FC<Props> = ({
                   >
                     {isPaying ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" /> Memverifikasi...
+                        <Loader2 className="w-5 h-5 animate-spin" /> Lagi Dicek, Sabar Ya... ⏳
                       </>
                     ) : (
-                      'Saya Sudah Bayar'
+                      'Udah Transfer, Gas! 🔥'
                     )}
                   </button>
                 </>

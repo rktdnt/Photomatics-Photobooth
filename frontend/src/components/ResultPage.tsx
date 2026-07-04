@@ -193,7 +193,7 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
               download="photomatics-strip.jpg"
               className="soft-btn-primary flex w-full items-center justify-center gap-3 rounded-full py-4 text-lg font-black"
             >
-              <Download className="w-5 h-5" /> Download File Kualitas HD
+              <Download className="w-5 h-5" /> Amankan Kualitas HD ⚡
             </a>
 
             {uploadedImageUrl.startsWith('http') && (
@@ -201,7 +201,7 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
                 onClick={handleCopyLink}
                 className="flex w-full items-center justify-center gap-3 rounded-full border-2 border-ink py-4 text-lg font-black transition-colors hover:bg-ink hover:text-warm-cream cursor-pointer"
               >
-                <Link className="w-5 h-5" /> {copied ? 'Tautan Disalin!' : 'Salin Tautan Share'}
+                <Link className="w-5 h-5" /> {copied ? 'Copied! Cuy 🚀' : 'Copy Link, Spill Circle! 🔗'}
               </button>
             )}
             
@@ -210,7 +210,7 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
               disabled={isUploading}
               className="flex w-full items-center justify-center gap-3 rounded-full bg-muted-blue py-4 text-lg font-black transition-colors disabled:opacity-50"
             >
-              <Share2 className="w-5 h-5" /> Tampilkan QR Code
+              <Share2 className="w-5 h-5" /> Show QR Code 👀
             </button>
             
             <p className="mt-2 flex items-center justify-center gap-1 text-center text-xs text-soft-ink">
@@ -232,14 +232,14 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
                     onClick={handleShareWA}
                     className="cursor-pointer rounded-2xl bg-ink px-6 py-3 text-sm font-black text-warm-cream transition-colors"
                   >
-                    Kirim
+                    Kirim Kuy! 🚀
                   </button>
                 </div>
                 <button 
                   onClick={handleShareWAStatus}
                   className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border border-ink/10 py-3 text-sm font-black transition-colors hover:border-ink"
                 >
-                  <Share2 className="w-4 h-4" /> Atau Bagikan ke Status / Kontak Lain
+                  <Share2 className="w-4 h-4" /> Share Status / Kontak Lain 📢
                 </button>
               </div>
             </div>
@@ -249,7 +249,7 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
             onClick={onReset}
             className="soft-btn-secondary flex w-full items-center justify-center gap-2 rounded-full py-4 font-black"
           >
-            <Home className="w-5 h-5" /> Kembali ke Beranda & Mulai Baru
+            <Home className="w-5 h-5" /> Balik ke Home, Snap Lagi! 🔄
           </button>
         </div>
       </div>

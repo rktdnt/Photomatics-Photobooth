@@ -349,8 +349,8 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
           disabled={isCompiling}
           className="soft-btn-primary flex items-center gap-2 rounded-full px-6 py-3 text-sm font-black"
         >
-          {isCompiling ? 'Memproses...' : (
-            <><Download className="w-4 h-4" /> Simpan & Export</>
+          {isCompiling ? 'Lagi Diproses... ⏳' : (
+            <><Download className="w-4 h-4" /> Simpan & Spill Hasilnya! ✨</>
           )}
         </button>
       </div>

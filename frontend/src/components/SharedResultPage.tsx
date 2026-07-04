@@ -35,14 +35,14 @@ const SharedResultPage: React.FC<Props> = ({ imageUrl, onReset }) => {
               download="photomatics-strip.jpg"
               className="soft-btn-primary flex w-full items-center justify-center gap-3 rounded-full py-4 text-lg font-black text-center"
             >
-              <Download className="w-5 h-5" /> Download Kualitas HD
+              <Download className="w-5 h-5" /> Amankan Kualitas HD ⚡
             </a>
             
             <button 
               onClick={onReset}
               className="flex w-full items-center justify-center gap-3 rounded-full bg-muted-blue py-4 text-lg font-black transition-colors cursor-pointer"
             >
-              <Camera className="w-5 h-5" /> Buat Foto Baru Sekarang
+              <Camera className="w-5 h-5" /> Mulai Bikin Foto Baru Kuy! 📸
             </button>
           </div>
         </div>

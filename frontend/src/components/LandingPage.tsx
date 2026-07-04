@@ -84,8 +84,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
       <header className="sticky top-0 z-50 px-4 py-4">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-[2rem] bg-warm-cream/90 px-6 shadow-lg shadow-ink/5 backdrop-blur-xl">
           <button onClick={onNext} className="text-left">
-            <h1 className="font-display text-2xl font-black tracking-tight text-ink">Photomatics</h1>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.28em] text-soft-ink">Soft photobox</p>
+            <h1 className="font-display text-2xl font-black tracking-tight text-ink">CTRL+Snap</h1>
           </button>
           <nav className="hidden items-center gap-8 text-sm font-extrabold text-soft-ink md:flex">
             <a href="#fitur" className="hover:text-ink">Fitur</a>
@@ -107,18 +106,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
               Photobox santai, hasil tetap niat
             </div>
             <h2 className="max-w-3xl font-display text-6xl font-black leading-[0.94] text-ink md:text-8xl">
-              Capture moments, simpan jadi cerita.
+              Foto seru, Kenangan nggak pernah nge-blur.
             </h2>
             <p className="mt-7 max-w-xl text-lg leading-8 text-soft-ink">
-              Website photobox dengan alur cepat: pilih sesi, ambil foto, hias photostrip, lalu unduh atau bagikan. Nuansanya calm, clean, dan tetap menarik dilihat.
+              Bikin strip foto estetik langsung dari browser. Pilih frame, Pose sesukamu, lalu unduh atau bagikan .
             </p>
             <div className="mt-9 flex flex-wrap gap-4">
               <button onClick={onNext} className="soft-btn-primary flex items-center gap-3 rounded-full px-8 py-4 text-base font-black">
                 <Camera className="h-5 w-5" />
-                Mulai Foto Sekarang
+                Gas, Snap Sekarang! 📸
               </button>
               <a href="#demo" className="soft-btn-secondary rounded-full px-8 py-4 text-base font-black">
-                Lihat Preview
+                Spill Contohnya 👀
               </a>
             </div>
           </motion.div>
