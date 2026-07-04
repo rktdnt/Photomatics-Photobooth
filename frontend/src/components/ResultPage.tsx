@@ -27,22 +27,33 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
 
 
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '' : 'http://127.0.0.1:8000');
-
   useEffect(() => {
     const processResult = async () => {
       let finalUrl = dataUrl;
       try {
         setIsUploading(true);
-        // 1. Upload to Cloudinary via Backend
-        const resUpload = await fetch(`${API_BASE}/api/upload`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: dataUrl })
-        });
-        if (resUpload.ok) {
-          const uploadData = await resUpload.json();
-          finalUrl = uploadData.url;
+        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+        const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'ml_default';
+
+        if (cloudName) {
+          const formData = new FormData();
+          formData.append('file', dataUrl);
+          formData.append('upload_preset', uploadPreset);
+          formData.append('folder', 'photomatics');
+
+          const resUpload = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+            method: 'POST',
+            body: formData
+          });
+
+          if (resUpload.ok) {
+            const uploadData = await resUpload.json();
+            finalUrl = uploadData.secure_url;
+          } else {
+            console.warn("Direct Cloudinary upload failed:", await resUpload.text());
+          }
+        } else {
+          console.warn("Cloudinary cloud name not configured on frontend (VITE_CLOUDINARY_CLOUD_NAME).");
         }
       } catch (err) {
         console.warn("Cloudinary upload failed, falling back to local data URL:", err);
@@ -104,19 +115,9 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
   const handleShowQR = async () => {
     setShowQRModal(true);
     if (!qrCodeDataUrl && uploadedImageUrl) {
-      try {
-        const res = await fetch(`${API_BASE}/api/qrcode`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: uploadedImageUrl })
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setQrCodeDataUrl(data.qr_data_url);
-        }
-      } catch (err) {
-        console.error("QR gen failed", err);
-      }
+      // Use the free, public QR code generator API directly on frontend
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(uploadedImageUrl)}`;
+      setQrCodeDataUrl(qrUrl);
     }
   };
 
