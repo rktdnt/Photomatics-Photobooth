@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Home, Share2, Download, History, Trash2, Camera, ExternalLink } from 'lucide-react';
+import { Home, Share2, Download, History, Trash2, Camera, ExternalLink, Link } from 'lucide-react';
 import { PhotostripLayout, PhotoFrame } from '../types';
 
 interface Props {
@@ -23,6 +23,7 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>('');
   const [history, setHistory] = useState<SessionRecord[]>([]);
   const [waNumber, setWaNumber] = useState('');
+  const [copied, setCopied] = useState(false);
 
 
 
@@ -147,6 +148,17 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
 
+  const handleCopyLink = async () => {
+    try {
+      const shareUrl = `${window.location.origin}${window.location.pathname}?share=${encodeURIComponent(uploadedImageUrl)}`;
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy link", err);
+    }
+  };
+
   return (
     <div className="container mx-auto min-h-screen px-6 py-10 text-ink">
       <div className="text-center mb-10">
@@ -182,6 +194,15 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
             >
               <Download className="w-5 h-5" /> Download File Kualitas HD
             </a>
+
+            {uploadedImageUrl.startsWith('http') && (
+              <button 
+                onClick={handleCopyLink}
+                className="flex w-full items-center justify-center gap-3 rounded-full border-2 border-ink py-4 text-lg font-black transition-colors hover:bg-ink hover:text-warm-cream cursor-pointer"
+              >
+                <Link className="w-5 h-5" /> {copied ? 'Tautan Disalin!' : 'Salin Tautan Share'}
+              </button>
+            )}
             
             <button 
               onClick={handleShowQR}

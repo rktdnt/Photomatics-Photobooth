@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LandingPage from './components/LandingPage';
 import TemplateSelector from './components/TemplateSelector';
 import Photobooth from './components/Photobooth';
 import PhotoEditor from './components/PhotoEditor';
 import ResultPage from './components/ResultPage';
+import SharedResultPage from './components/SharedResultPage';
 import { CapturedPhoto, PhotostripLayout, PhotoFrame } from './types';
 import { LAYOUTS, FRAMES } from './types';
 
-export type ViewState = 'landing' | 'selector' | 'photobooth' | 'editor' | 'result';
+export type ViewState = 'landing' | 'selector' | 'photobooth' | 'editor' | 'result' | 'shared';
 
 function App() {
   const [view, setView] = useState<ViewState>('landing');
@@ -16,6 +17,16 @@ function App() {
   const [selectedFrame, setSelectedFrame] = useState<PhotoFrame>(FRAMES[0]); // Default sleek-minimalist
   const [capturedPhotos, setCapturedPhotos] = useState<CapturedPhoto[]>([]);
   const [compiledDataUrl, setCompiledDataUrl] = useState<string>('');
+  const [sharedImageUrl, setSharedImageUrl] = useState<string>('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sharedImg = params.get('share') || params.get('image');
+    if (sharedImg) {
+      setSharedImageUrl(sharedImg);
+      setView('shared');
+    }
+  }, []);
 
   const navigateTo = (newView: ViewState) => {
     setView(newView);
@@ -29,6 +40,13 @@ function App() {
     setSelectedLayout(LAYOUTS[1]);
     setSelectedFrame(FRAMES[0]);
     navigateTo('landing');
+  };
+
+  const resetSharedSession = () => {
+    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+    setSharedImageUrl('');
+    resetSession();
   };
 
   return (
@@ -85,6 +103,13 @@ function App() {
           frame={selectedFrame}
           sessionMode={sessionMode}
           onReset={resetSession}
+        />
+      )}
+
+      {view === 'shared' && (
+        <SharedResultPage 
+          imageUrl={sharedImageUrl}
+          onReset={resetSharedSession}
         />
       )}
     </div>
