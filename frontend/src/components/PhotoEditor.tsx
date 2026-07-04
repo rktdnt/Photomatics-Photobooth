@@ -335,25 +335,31 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
 
       <div className="flex-1 grid lg:grid-cols-12 gap-8">
         {/* Kiri: Live DOM Preview (6 col) */}
-        <div className="blue-card flex max-h-[74vh] justify-center overflow-y-auto rounded-[2.5rem] p-8">
+        <div className="blue-card flex max-h-[74vh] items-center justify-center overflow-hidden rounded-[2.5rem] p-8 lg:col-span-6">
           <div 
             ref={containerRef}
-            className="relative w-full max-w-[300px] touch-none overflow-hidden rounded-[1.75rem] shadow-2xl transition-colors duration-500"
+            className="relative max-h-full max-w-full touch-none overflow-hidden rounded-[2rem] shadow-2xl transition-colors duration-500 p-4"
             style={{ 
               backgroundColor: selectedFrame.bgColor,
-              aspectRatio: layout.id === 'single-1' ? '1/1.13' : layout.id === 'grid-4' ? '1/1.2' : '1/2.6',
-              padding: '16px'
+              aspectRatio: layout.id === 'single-1' ? '600/680' : layout.id === 'classic-3' ? '600/1600' : layout.id === 'strip-4' ? '600/2100' : '600/720',
+              height: '100%',
+              maxWidth: '280px'
             }}
           >
             {selectedFrame.pattern === 'radial-dot' && (
               <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '10px 10px', color: selectedFrame.textColor }} />
             )}
 
-            <div className={`relative z-10 w-full h-full flex ${layout.id === 'grid-4' ? 'flex-wrap gap-2' : 'flex-col gap-2'}`}>
+            <div className={`relative z-10 w-full h-full flex ${layout.id === 'grid-4' ? 'flex-wrap gap-4' : 'flex-col gap-4'}`}>
               {photos.map((p, i) => (
                 <div 
                   key={i} 
-                  className={`relative overflow-hidden rounded-xl border border-ink/10 ${layout.id === 'grid-4' ? 'w-[calc(50%-4px)] aspect-square' : 'w-full aspect-[4/3]'}`}
+                  className={`relative overflow-hidden rounded-xl border border-ink/10 flex-shrink-0 ${
+                    layout.id === 'single-1' ? 'w-full aspect-[536/500]' :
+                    layout.id === 'classic-3' ? 'w-full aspect-[536/440]' :
+                    layout.id === 'strip-4' ? 'w-full aspect-[536/430]' :
+                    'w-[calc(50%-8px)] aspect-[252/260]'
+                  }`}
                 >
                   <img src={p.dataUrl} className={`w-full h-full object-cover transform -scale-x-100 ${selectedFilter.className}`} alt={`p-${i}`} />
                 </div>
@@ -390,9 +396,13 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
             </div>
 
             {customImage && (
-              <img src={customImage} className="absolute bottom-4 left-3 w-12 h-12 object-contain z-40 pointer-events-none" alt="Custom overlay" />
+              <img 
+                src={customImage} 
+                className="absolute bottom-[2%] left-[4%] w-[20%] aspect-square object-contain z-40 pointer-events-none rounded-lg p-0.5 border border-ink/10 shadow-sm bg-white/80" 
+                alt="Custom overlay" 
+              />
             )}
-            <div className="absolute bottom-3 left-0 w-full text-center text-[8px] font-display font-bold tracking-[0.2em]" style={{ color: selectedFrame.textColor }}>
+            <div className="absolute bottom-[1.5%] left-0 w-full text-center text-[7px] font-display font-bold tracking-[0.2em] pointer-events-none" style={{ color: selectedFrame.textColor }}>
               PHOTOMATICS AI BOOTH
             </div>
           </div>
