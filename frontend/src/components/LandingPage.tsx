@@ -43,9 +43,9 @@ const MiniStrip = ({
 );
 
 const PREVIEW_IMAGES = [
-  '/images/strip_one_one.png',
-  '/images/strip_one_two.png',
-  '/images/strip_one_three.png',
+  `${import.meta.env.BASE_URL}images/strip_one_one.png`,
+  `${import.meta.env.BASE_URL}images/strip_one_two.png`,
+  `${import.meta.env.BASE_URL}images/strip_one_three.png`,
 ];
 
 const getPhotoNumber = (path: string): string => {
@@ -130,18 +130,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
             <MiniStrip 
               className="animate-float absolute right-12 top-12 w-52 rotate-6 z-10" 
               images={[
-                '/images/strip_one_one.png',
-                '/images/strip_one_two.png',
-                '/images/strip_one_three.png'
+                `${import.meta.env.BASE_URL}images/strip_one_one.png`,
+                `${import.meta.env.BASE_URL}images/strip_one_two.png`,
+                `${import.meta.env.BASE_URL}images/strip_one_three.png`
               ]}
             />
             <MiniStrip 
               className="animate-float absolute left-20 top-36 w-60 -rotate-6 z-20" 
               dark 
               images={[
-                '/images/strip_two_one.png',
-                '/images/strip_two_two.png',
-                '/images/strip_two_three.png'
+                `${import.meta.env.BASE_URL}images/strip_two_one.png`,
+                `${import.meta.env.BASE_URL}images/strip_two_two.png`,
+                `${import.meta.env.BASE_URL}images/strip_two_three.png`
               ]}
             />
           </motion.div>
