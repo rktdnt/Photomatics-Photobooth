@@ -12,7 +12,7 @@ export type ViewState = 'landing' | 'selector' | 'photobooth' | 'editor' | 'resu
 
 function App() {
   const [view, setView] = useState<ViewState>('landing');
-  const [sessionMode, setSessionMode] = useState<'trial' | 'premium'>('trial');
+  const [sessionMode, setSessionMode] = useState<'trial' | 'premium'>('premium');
   const [selectedLayout, setSelectedLayout] = useState<PhotostripLayout>(LAYOUTS[1]); // Default classic-3
   const [selectedFrame, setSelectedFrame] = useState<PhotoFrame>(FRAMES[0]); // Default sleek-minimalist
   const [capturedPhotos, setCapturedPhotos] = useState<CapturedPhoto[]>([]);
@@ -36,7 +36,7 @@ function App() {
   const resetSession = () => {
     setCapturedPhotos([]);
     setCompiledDataUrl('');
-    setSessionMode('trial');
+    setSessionMode('premium');
     setSelectedLayout(LAYOUTS[1]);
     setSelectedFrame(FRAMES[0]);
     navigateTo('landing');
@@ -61,7 +61,6 @@ function App() {
       {view === 'selector' && (
         <TemplateSelector 
           sessionMode={sessionMode}
-          setSessionMode={setSessionMode}
           selectedLayout={selectedLayout}
           setSelectedLayout={setSelectedLayout}
           selectedFrame={selectedFrame}

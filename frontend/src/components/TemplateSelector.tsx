@@ -6,7 +6,6 @@ import { makeQRISDynamic, DEFAULT_STATIC_QRIS } from '../utils/qris';
 
 interface Props {
   sessionMode: 'trial' | 'premium';
-  setSessionMode: (mode: 'trial' | 'premium') => void;
   selectedLayout: PhotostripLayout;
   setSelectedLayout: (layout: PhotostripLayout) => void;
   selectedFrame: PhotoFrame;
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const TemplateSelector: React.FC<Props> = ({
-  sessionMode, setSessionMode,
+  sessionMode,
   selectedLayout, setSelectedLayout,
   selectedFrame, setSelectedFrame,
   onBack, onNext
@@ -98,37 +97,6 @@ const TemplateSelector: React.FC<Props> = ({
         {/* Kiri: Pilihan (8 col) */}
         <div className="lg:col-span-8 flex flex-col gap-6">
           
-          {/* Card 1: Session Mode */}
-          <div className="cream-card rounded-[2rem] p-7">
-            <h3 className="mb-5 flex items-center gap-2 text-xl font-black"><Sparkles className="w-5 h-5 text-soft-ink" /> Pilih Mode Sesi</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <button 
-                onClick={() => setSessionMode('trial')}
-                className={`rounded-2xl border p-5 text-left transition-all ${sessionMode === 'trial' ? 'border-ink bg-muted-blue/55 shadow-lg' : 'border-ink/10 bg-white/35 hover:border-ink/30'}`}
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <div className="font-bold">Trial Sesi</div>
-                  {sessionMode === 'trial' && <Check className="w-5 h-5 text-ink" />}
-                </div>
-                <div className="mb-2 text-sm text-soft-ink">1 Jepretan, Frame Dasar, Ada Watermark</div>
-                <div className="font-mono font-bold text-ink">Rp 0</div>
-              </button>
-              
-              <button 
-                onClick={() => setSessionMode('premium')}
-                className={`relative overflow-hidden rounded-2xl border p-5 text-left transition-all ${sessionMode === 'premium' ? 'border-ink bg-ink text-warm-cream shadow-lg' : 'border-ink/10 bg-white/35 hover:border-ink/30'}`}
-              >
-                <div className="relative z-10">
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="font-bold">Premium Sesi</div>
-                    {sessionMode === 'premium' && <Check className="w-5 h-5 text-warm-cream" />}
-                  </div>
-                  <div className={`mb-2 text-sm ${sessionMode === 'premium' ? 'text-warm-cream/70' : 'text-soft-ink'}`}>Semua Layout, Full Frame, HD Tanpa Watermark</div>
-                  <div className="font-mono font-bold">Rp 10.000</div>
-                </div>
-              </button>
-            </div>
-          </div>
 
           {/* Card 2: Layout */}
           <div className="cream-card rounded-[2rem] p-7">
