@@ -187,7 +187,7 @@ const TemplateSelector: React.FC<Props> = ({
               </div>
               
               <div className="mt-4 text-center text-[10px] font-display font-bold tracking-widest" style={{ color: selectedFrame.textColor }}>
-                PHOTOMATICS
+                CTRL+Snap
               </div>
             </motion.div>
             
@@ -228,7 +228,7 @@ const TemplateSelector: React.FC<Props> = ({
                 <Sparkles className="w-6 h-6 text-soft-ink animate-pulse" />
                 <span className="font-display font-black text-xl tracking-widest text-ink">QRIS DINAMIS</span>
               </div>
-              <p className="text-xs text-soft-ink mb-6 uppercase tracking-wider font-mono">Photomatics Premium Upgrade</p>
+              <p className="text-xs text-soft-ink mb-6 uppercase tracking-wider font-mono">CTRL+Snap Premium Upgrade</p>
 
               {!isPaid ? (
                 <>

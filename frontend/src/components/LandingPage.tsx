@@ -38,7 +38,7 @@ const MiniStrip = ({
         </div>
       ))}
     </div>
-    <div className="mt-5 text-center text-[10px] font-black tracking-[0.28em]">PHOTOMATICS</div>
+    <div className="mt-5 text-center text-[10px] font-black tracking-[0.28em]">CTRL+Snap</div>
   </div>
 );
 
@@ -180,7 +180,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
                 <span className="h-3 w-3 rounded-full bg-warm-cream" />
                 <span className="h-3 w-3 rounded-full bg-muted-blue" />
                 <span className="h-3 w-3 rounded-full bg-cloud-white" />
-                <span className="ml-auto font-mono text-xs text-warm-cream/55">photomatics.app</span>
+                <span className="ml-auto font-mono text-xs text-warm-cream/55">ctrlsnap.app</span>
               </div>
               <div 
                 className="flex aspect-video items-center justify-center rounded-[2rem] bg-muted-blue bg-cover bg-center relative overflow-hidden group cursor-pointer"

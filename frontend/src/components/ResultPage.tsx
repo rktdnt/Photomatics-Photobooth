@@ -39,7 +39,7 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
           const formData = new FormData();
           formData.append('file', dataUrl);
           formData.append('upload_preset', uploadPreset);
-          formData.append('folder', 'photomatics');
+          formData.append('folder', 'ctrlsnap');
 
           const resUpload = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
             method: 'POST',
@@ -137,15 +137,15 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
   };
 
   const handleShareWA = () => {
-    const shareUrl = uploadedImageUrl.startsWith('http') ? uploadedImageUrl : 'https://photomatics.app';
-    const text = encodeURIComponent(`Lihat hasil photobooth AI saya dari Photomatics! ✨📸\n${shareUrl}`);
+    const shareUrl = uploadedImageUrl.startsWith('http') ? uploadedImageUrl : 'https://ctrlsnap.app';
+    const text = encodeURIComponent(`Lihat hasil photobooth AI saya dari CTRL+Snap! ✨📸\n${shareUrl}`);
     const cleanNumber = waNumber.replace(/\D/g, '');
     window.open(`https://wa.me/${cleanNumber}?text=${text}`, '_blank');
   };
 
   const handleShareWAStatus = () => {
-    const shareUrl = uploadedImageUrl.startsWith('http') ? uploadedImageUrl : 'https://photomatics.app';
-    const text = encodeURIComponent(`Lihat hasil photobooth AI saya dari Photomatics! ✨📸\n${shareUrl}`);
+    const shareUrl = uploadedImageUrl.startsWith('http') ? uploadedImageUrl : 'https://ctrlsnap.app';
+    const text = encodeURIComponent(`Lihat hasil photobooth AI saya dari CTRL+Snap! ✨📸\n${shareUrl}`);
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
 
@@ -190,7 +190,7 @@ const ResultPage: React.FC<Props> = ({ dataUrl, onReset }) => {
             
             <a 
               href={dataUrl} 
-              download="photomatics-strip.jpg"
+              download="ctrlsnap-strip.jpg"
               className="soft-btn-primary flex w-full items-center justify-center gap-3 rounded-full py-4 text-lg font-black"
             >
               <Download className="w-5 h-5" /> Amankan Kualitas HD ⚡

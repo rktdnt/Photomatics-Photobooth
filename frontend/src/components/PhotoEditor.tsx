@@ -316,7 +316,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
       ctx.font = 'bold 16px Outfit, sans-serif';
       ctx.textAlign = 'center';
       ctx.letterSpacing = '4px';
-      ctx.fillText('PHOTOMATICS AI BOOTH', CANVAS_WIDTH / 2, CANVAS_HEIGHT - 24);
+      ctx.fillText('CTRL+Snap', CANVAS_WIDTH / 2, CANVAS_HEIGHT - 24);
       ctx.restore();
 
       // Final output
@@ -428,7 +428,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
               />
             )}
             <div className="absolute bottom-[1.5%] left-0 w-full text-center text-[7px] font-display font-bold tracking-[0.2em] pointer-events-none" style={{ color: selectedFrame.textColor }}>
-              PHOTOMATICS AI BOOTH
+              CTRL+Snap
             </div>
           </div>
         </div>

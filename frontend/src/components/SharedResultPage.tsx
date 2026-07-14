@@ -32,7 +32,7 @@ const SharedResultPage: React.FC<Props> = ({ imageUrl, onReset }) => {
               href={imageUrl} 
               target="_blank"
               rel="noreferrer"
-              download="photomatics-strip.jpg"
+              download="ctrlsnap-strip.jpg"
               className="soft-btn-primary flex w-full items-center justify-center gap-3 rounded-full py-4 text-lg font-black text-center"
             >
               <Download className="w-5 h-5" /> Amankan Kualitas HD ⚡
