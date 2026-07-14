@@ -12,7 +12,7 @@ export type ViewState = 'landing' | 'selector' | 'photobooth' | 'editor' | 'resu
 
 function App() {
   const [view, setView] = useState<ViewState>('landing');
-  const [sessionMode, setSessionMode] = useState<'trial' | 'premium'>('premium');
+  const [sessionMode, setSessionMode] = useState<'free' | 'premium'>('free');
   const [selectedLayout, setSelectedLayout] = useState<PhotostripLayout>(LAYOUTS[1]); // Default classic-3
   const [selectedFrame, setSelectedFrame] = useState<PhotoFrame>(FRAMES[0]); // Default sleek-minimalist
   const [capturedPhotos, setCapturedPhotos] = useState<CapturedPhoto[]>([]);
@@ -36,7 +36,7 @@ function App() {
   const resetSession = () => {
     setCapturedPhotos([]);
     setCompiledDataUrl('');
-    setSessionMode('premium');
+    setSessionMode('free');
     setSelectedLayout(LAYOUTS[1]);
     setSelectedFrame(FRAMES[0]);
     navigateTo('landing');

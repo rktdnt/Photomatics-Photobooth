@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Camera, ChevronRight, Download, LayoutTemplate, Play, Sparkles, Star, Timer, Wand2 } from 'lucide-react';
+import { Camera, Download, LayoutTemplate, Play, Sparkles, Star, Timer, Wand2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { TESTIMONIALS } from '../types';
 
@@ -227,21 +227,24 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
         </section>
 
         <section className="mx-auto max-w-7xl px-6 py-20">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="cream-card rounded-[2.5rem] p-9">
+          <div className="flex flex-col items-center gap-6">
+            <div className="cream-card w-full max-w-2xl rounded-[2.5rem] p-10 text-center">
               <p className="eyebrow mb-4">Gratis Selamanya</p>
-              <h3 className="font-display text-5xl font-black">Rp 0</h3>
-              <p className="mt-5 text-soft-ink">Semua layout, semua filter, dan frame standar — bebas pakai tanpa bayar. Hasil foto dengan watermark CTRL+Snap.</p>
-              <button onClick={onNext} className="soft-btn-primary mt-8 w-full rounded-full py-4 font-black">Gas Foto Sekarang! 📸</button>
-            </div>
-            <div className="rounded-[2.5rem] bg-ink p-9 text-warm-cream shadow-2xl shadow-ink/20">
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-blue">Premium Sesi</p>
-              <h3 className="mt-4 font-display text-5xl font-black">Rp 10.000</h3>
-              <p className="mt-5 text-warm-cream/75">Buka maskot eksklusif, frame premium, dan hasil tanpa watermark — sekali bayar per sesi.</p>
-              <button onClick={onNext} className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-warm-cream py-4 font-black text-ink">
-                Upgrade ke Premium <ChevronRight className="h-5 w-5" />
+              <h3 className="font-display text-6xl font-black">Rp 0</h3>
+              <p className="mt-5 text-soft-ink max-w-md mx-auto">Semua layout, semua filter, semua frame standar — bebas pakai tanpa batas. Hasil foto dengan watermark CTRL+Snap.</p>
+              <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm text-soft-ink mb-8">
+                {['✅ Semua layout', '✅ Semua filter', '✅ Frame standar', '✅ Export HD', '✅ Share link & QR'].map(f => (
+                  <span key={f} className="rounded-full bg-muted-blue/40 px-4 py-1.5 font-semibold">{f}</span>
+                ))}
+              </div>
+              <button onClick={onNext} className="soft-btn-primary rounded-full px-10 py-4 text-base font-black">
+                Gas Foto Sekarang! 📸
               </button>
             </div>
+            <p className="text-sm text-soft-ink/70">
+              Butuh frame kustom, maskot, atau hasil bebas watermark?{' '}
+              <span className="font-bold text-soft-ink underline underline-offset-2 cursor-pointer" onClick={onNext}>Upgrade Premium Rp 10.000/sesi →</span>
+            </p>
           </div>
         </section>
       </main>
