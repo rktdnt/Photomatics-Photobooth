@@ -156,7 +156,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             <FeatureCard icon={Sparkles} title="Filter real-time" desc="Pilih mood warna saat sesi kamera berjalan, lalu lanjutkan ke editor." />
-            <FeatureCard icon={LayoutTemplate} title="Layout photostrip" desc="Trial bisa single frame, premium membuka strip dan grid yang lebih lengkap." />
+            <FeatureCard icon={LayoutTemplate} title="Layout photostrip" desc="Single frame, strip vertikal, hingga grid — semua tersedia gratis. Frame eksklusif dan maskot untuk sesi premium." />
             <FeatureCard icon={Wand2} title="Editor dekorasi" desc="Tambahkan filter, stiker, teks, dan frame sebelum export." />
             <FeatureCard icon={Download} title="Export HD" desc="Hasil akhir siap diunduh, dikirim, atau dibagikan lewat QR/tautan." />
             <FeatureCard icon={Timer} title="Timer otomatis" desc="3, 5, atau 10 detik untuk pose yang lebih santai." />
@@ -229,17 +229,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
         <section className="mx-auto max-w-7xl px-6 py-20">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="cream-card rounded-[2.5rem] p-9">
-              <p className="eyebrow mb-4">Trial Sesi</p>
+              <p className="eyebrow mb-4">Gratis Selamanya</p>
               <h3 className="font-display text-5xl font-black">Rp 0</h3>
-              <p className="mt-5 text-soft-ink">Cocok untuk coba cepat: single frame, filter dasar, dan watermark.</p>
-              <button onClick={onNext} className="soft-btn-secondary mt-8 w-full rounded-full py-4 font-black">Coba Gratis</button>
+              <p className="mt-5 text-soft-ink">Semua layout, semua filter, dan frame standar — bebas pakai tanpa bayar. Hasil foto dengan watermark CTRL+Snap.</p>
+              <button onClick={onNext} className="soft-btn-primary mt-8 w-full rounded-full py-4 font-black">Gas Foto Sekarang! 📸</button>
             </div>
             <div className="rounded-[2.5rem] bg-ink p-9 text-warm-cream shadow-2xl shadow-ink/20">
               <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-muted-blue">Premium Sesi</p>
               <h3 className="mt-4 font-display text-5xl font-black">Rp 10.000</h3>
-              <p className="mt-5 text-warm-cream/75">Semua layout, frame eksklusif, bebas watermark, dan QR download kualitas HD.</p>
+              <p className="mt-5 text-warm-cream/75">Buka maskot eksklusif, frame premium, dan hasil tanpa watermark — sekali bayar per sesi.</p>
               <button onClick={onNext} className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-warm-cream py-4 font-black text-ink">
-                Mulai Premium <ChevronRight className="h-5 w-5" />
+                Upgrade ke Premium <ChevronRight className="h-5 w-5" />
               </button>
             </div>
           </div>
