@@ -3,8 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 
 from app import schemas, config
+from app.routers import media
 
-app = FastAPI(title="Photomatics API")
+app = FastAPI(title="CTRL+Snap API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,11 +15,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ─── Routers ───
+app.include_router(media.router, prefix="/api/media", tags=["media"])
+
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to Photomatics API"}
+    return {"message": "Welcome to CTRL+Snap API"}
 
-# Session history is now stored directly in the browser's cookies/localStorage.
+# Session history is stored directly in the browser's cookies/localStorage.
 # Backend is stateless and no longer requires local database table storage.
 
 @app.post("/api/ai/remove-background")
@@ -31,3 +35,4 @@ def ai_remove_background(req: schemas.UploadImageRequest):
         "status": "not_implemented_yet",
         "image": req.image
     }
+
