@@ -11,7 +11,7 @@ if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
 
 def upload_base64_image(base64_data: str):
     # Cloudinary automatically handles data:image/png;base64,... strings
-    response = cloudinary.uploader.upload(base64_data, folder="photomatics")
+    response = cloudinary.uploader.upload(base64_data, folder="ctrlsnap")
     return {
         "url": response.get("secure_url"),
         "public_id": response.get("public_id")

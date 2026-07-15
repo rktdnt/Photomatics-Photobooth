@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Home, Share2, Download, History, Trash2, Camera, ExternalLink, Link, Sparkles, Loader2, AlertCircle, Clapperboard } from 'lucide-react';
 import { PhotostripLayout, PhotoFrame, CapturedPhoto } from '../types';
-import { encodeGif } from '../utils/gifEncoder';
 
 interface Props {
   dataUrl: string;
@@ -18,7 +17,7 @@ interface SessionRecord {
   created_at: string;
 }
 
-const ResultPage: React.FC<Props> = ({ dataUrl, photos, onReset }) => {
+const ResultPage: React.FC<Props> = ({ dataUrl, photos, layout, frame, sessionMode, onReset }) => {
   const [showQRModal, setShowQRModal] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
   const [isUploading, setIsUploading] = useState(true);
@@ -34,63 +33,69 @@ const ResultPage: React.FC<Props> = ({ dataUrl, photos, onReset }) => {
 
 
 
+  // Device ID generation / retrieval to identify device on the backend
+  const getDeviceId = (): string => {
+    let devId = localStorage.getItem('ctrlsnap_device_id');
+    if (!devId) {
+      devId = 'dev_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+      localStorage.setItem('ctrlsnap_device_id', devId);
+    }
+    return devId;
+  };
+
   useEffect(() => {
     const processResult = async () => {
       let finalUrl = dataUrl;
+      let pubId = 'local_uri';
+      setIsUploading(true);
+      
       try {
-        setIsUploading(true);
-        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-        const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'ml_default';
+        const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
+        const formData = new FormData();
+        formData.append('image_base64', dataUrl);
 
-        if (cloudName) {
-          const formData = new FormData();
-          formData.append('file', dataUrl);
-          formData.append('upload_preset', uploadPreset);
-          formData.append('folder', 'ctrlsnap');
+        const resUpload = await fetch(`${apiBase}/api/upload`, {
+          method: 'POST',
+          body: formData
+        });
 
-          const resUpload = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: 'POST',
-            body: formData
-          });
-
-          if (resUpload.ok) {
-            const uploadData = await resUpload.json();
-            finalUrl = uploadData.secure_url;
-          } else {
-            console.warn("Direct Cloudinary upload failed:", await resUpload.text());
-          }
+        if (resUpload.ok) {
+          const uploadData = await resUpload.json();
+          finalUrl = uploadData.url;
+          pubId = uploadData.public_id;
         } else {
-          console.warn("Cloudinary cloud name not configured on frontend (VITE_CLOUDINARY_CLOUD_NAME).");
+          throw new Error('Upload failed');
         }
       } catch (err) {
-        console.warn("Cloudinary upload failed, falling back to local data URL:", err);
+        console.error("Cloudinary upload via backend failed:", err);
       } finally {
         setUploadedImageUrl(finalUrl);
         setIsUploading(false);
       }
 
-      // 2. Save Session to Browser Storage (localStorage & cookies)
+      // Save Session to Database via Backend API
       try {
-        const newRecord: SessionRecord = {
-          id: Date.now(),
+        const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
+        const sessionCreate = {
+          device_id: getDeviceId(),
+          layout_id: layout.id,
+          frame_id: frame.id,
+          session_mode: sessionMode,
           image_url: finalUrl,
-          created_at: new Date().toISOString()
+          public_id: pubId
         };
 
-        const localHistoryStr = localStorage.getItem('pm_history') || '[]';
-        const localHistory = JSON.parse(localHistoryStr) as SessionRecord[];
-        localHistory.unshift(newRecord);
-        localStorage.setItem('pm_history', JSON.stringify(localHistory));
+        const resSession = await fetch(`${apiBase}/api/sessions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(sessionCreate)
+        });
 
-        // Save backup to cookies (limited to last 10 URL records under 4KB)
-        if (!finalUrl.startsWith('data:')) {
-          const cookieHistory = localHistory.slice(0, 10);
-          document.cookie = `pm_history=${encodeURIComponent(JSON.stringify(cookieHistory))}; path=/; max-age=31536000; SameSite=Lax`;
+        if (resSession.ok) {
+          fetchHistory();
         }
-
-        fetchHistory();
       } catch (err) {
-        console.error("Failed to save session history locally:", err);
+        console.error("Failed to save session history to backend:", err);
       }
     };
 
@@ -98,48 +103,55 @@ const ResultPage: React.FC<Props> = ({ dataUrl, photos, onReset }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fetchHistory = () => {
+  const fetchHistory = async () => {
     try {
-      // 1. Read from localStorage
-      const localHistoryStr = localStorage.getItem('pm_history');
-      if (localHistoryStr) {
-        setHistory(JSON.parse(localHistoryStr));
-        return;
-      }
-
-      // 2. Fallback to cookies
-      const match = document.cookie.match(/(^| )pm_history=([^;]+)/);
-      if (match) {
-        const cookieHistory = JSON.parse(decodeURIComponent(match[2]));
-        setHistory(cookieHistory);
-        localStorage.setItem('pm_history', JSON.stringify(cookieHistory));
+      const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
+      const devId = getDeviceId();
+      const res = await fetch(`${apiBase}/api/sessions?device_id=${encodeURIComponent(devId)}`);
+      if (res.ok) {
+        const data = await res.json();
+        setHistory(data);
       }
     } catch (err) {
-      console.warn("Could not load history from browser storage:", err);
+      console.warn("Could not load history from backend API:", err);
     }
   };
 
   const handleShowQR = async () => {
     setShowQRModal(true);
     if (!qrCodeDataUrl && uploadedImageUrl) {
-      // Use the free, public QR code generator API directly on frontend
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(uploadedImageUrl)}`;
-      setQrCodeDataUrl(qrUrl);
+      try {
+        const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
+        const res = await fetch(`${apiBase}/api/qrcode`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: uploadedImageUrl })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setQrCodeDataUrl(data.qr_data_url);
+        } else {
+          throw new Error();
+        }
+      } catch (err) {
+        // Safe backend fallback if API fails
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(uploadedImageUrl)}`;
+        setQrCodeDataUrl(qrUrl);
+      }
     }
   };
 
-  const handleDeleteHistory = (id: number) => {
+  const handleDeleteHistory = async (id: number) => {
     try {
-      const localHistoryStr = localStorage.getItem('pm_history') || '[]';
-      const localHistory = JSON.parse(localHistoryStr) as SessionRecord[];
-      const updatedHistory = localHistory.filter(h => h.id !== id);
-      localStorage.setItem('pm_history', JSON.stringify(updatedHistory));
-      setHistory(updatedHistory);
-
-      const cookieHistory = updatedHistory.slice(0, 10).filter(h => !h.image_url.startsWith('data:'));
-      document.cookie = `pm_history=${encodeURIComponent(JSON.stringify(cookieHistory))}; path=/; max-age=31536000; SameSite=Lax`;
+      const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
+      const res = await fetch(`${apiBase}/api/sessions/${id}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) {
+        setHistory(prev => prev.filter(h => h.id !== id));
+      }
     } catch (err) {
-      console.error("Delete from browser storage failed:", err);
+      console.error("Delete session from database failed:", err);
     }
   };
 
@@ -176,41 +188,25 @@ const ResultPage: React.FC<Props> = ({ dataUrl, photos, onReset }) => {
     setGifState('loading');
     setGifError('');
     try {
-      // Try Railway backend first (Pillow = better quality + faster)
+      // Direct call to Railway backend to process GIF (no local fallback)
       const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout
-      try {
-        const res = await fetch(`${apiBase}/api/media/gif`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          signal: controller.signal,
-          body: JSON.stringify({
-            frames: photos.map(p => p.dataUrl),
-            fps: 6,
-            width: 480,
-            ping_pong: true,
-            quality: 82,
-          }),
-        });
-        clearTimeout(timeout);
-        if (res.ok) {
-          const data = await res.json();
-          setGifDataUrl(data.gif_base64);
-          setGifState('done');
-          return;
-        }
-      } catch {
-        clearTimeout(timeout);
-        // Backend down/timeout — fall through to client-side
+      const res = await fetch(`${apiBase}/api/media/gif`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          frames: photos.map(p => p.dataUrl),
+          fps: 6,
+          width: 480,
+          ping_pong: true,
+          quality: 82,
+        }),
+      });
+      if (!res.ok) {
+        const detail = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(detail.detail || res.statusText);
       }
-
-      // Fallback: pure client-side GIF encoding
-      const gifDataUri = await encodeGif(
-        photos.map(p => p.dataUrl),
-        { fps: 6, width: 480, pingPong: true, quality: 8 }
-      );
-      setGifDataUrl(gifDataUri);
+      const data = await res.json();
+      setGifDataUrl(data.gif_base64);
       setGifState('done');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);

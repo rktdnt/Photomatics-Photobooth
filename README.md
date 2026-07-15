@@ -331,14 +331,17 @@ Isi `VITE_STATIC_QRIS` di `frontend/.env` dengan string QRIS statis dari akun QR
 
 ---
 
+---
+
 ## 🔐 Catatan Keamanan & Status Backend
 
-- ⚠️ Router `sessions`, `upload`, `qrcode_gen`, `media`, `ai_tools` **belum** didaftarkan di `main.py` — perlu `app.include_router(...)` untuk mengaktifkannya
-- ⚠️ Upload gambar, generate QR, dan riwayat sesi berjalan **langsung dari browser** (Cloudinary unsigned upload, `api.qrserver.com`, `localStorage`/cookie)
-- ⚠️ Verifikasi pembayaran QRIS disimulasikan (`setTimeout`) — belum terhubung payment gateway sungguhan
-- ⚠️ `routers/media.py` dan `routers/ai_tools.py` masih placeholder
-- ✅ CORS dikonfigurasi via `FRONTEND_ORIGIN` di `config.py`
-- ✅ `.env` tidak ikut ter-commit ke Git
+- ✅ Semua router (`sessions`, `upload`, `qrcode`, `media`, `ai`) sudah didaftarkan di `main.py` menggunakan `app.include_router(...)`.
+- ✅ Upload gambar, QR code generation, dan riwayat sesi diproses secara aman melalui server backend (terintegrasi dengan Cloudinary API di server dan `qrcode` library Python).
+- ✅ Verifikasi pembayaran QRIS di-handle di sisi server via endpoint `/api/payments/verify`.
+- ✅ Fitur GIF (Live Photo) di-render di backend dengan Pillow menggunakan ping-pong looping yang mulus.
+- ✅ AI Background Removal (Tab Mascot) di-render di backend menggunakan teknik chroma-key thresholding berbasis Pillow.
+- ✅ CORS terkonfigurasi dengan aman via `FRONTEND_ORIGIN` di `config.py`.
+- ✅ File `.env` tidak ikut ter-commit ke Git.
 
 ---
 

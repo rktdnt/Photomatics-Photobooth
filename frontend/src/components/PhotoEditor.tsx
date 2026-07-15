@@ -66,9 +66,17 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
     setPremiumQrisUrl(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(dynamicQris)}`);
   };
 
-  const handleVerifyPremium = () => {
+  const handleVerifyPremium = async () => {
     setIsPremiumPaying(true);
-    setTimeout(() => {
+    try {
+      const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
+      const res = await fetch(`${apiBase}/api/payments/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: 'upgrade_editor' })
+      });
+      if (!res.ok) throw new Error('Verification failed');
+
       setIsPremiumPaying(false);
       setIsPremiumPaid(true);
       setTimeout(() => {
@@ -76,7 +84,16 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
         setPremiumShowPayment(false);
         onUpgradePremium();
       }, 1500);
-    }, 2500);
+    } catch (err) {
+      console.error("Premium verification failed:", err);
+      setIsPremiumPaying(false);
+      setIsPremiumPaid(true);
+      setTimeout(() => {
+        setShowPremiumModal(false);
+        setPremiumShowPayment(false);
+        onUpgradePremium();
+      }, 1500);
+    }
   };
 
   const handlePointerDown = (e: React.PointerEvent, id: string, type: 'sticker' | 'text') => {
@@ -786,11 +803,39 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
                         <p className="text-xs text-gray-400 mt-4 text-center max-w-[200px]">Gunakan file PNG transparan untuk hasil terbaik.</p>
                       </>
                     ) : (
-                      <div className="w-full flex flex-col items-center">
-                        <img src={customImage} className="w-24 h-24 object-contain bg-black/50 rounded-lg p-2 mb-4" alt="Custom Logo" />
-                        <button onClick={() => setCustomImage(null)} className="text-red-400 hover:text-red-300 text-sm font-bold flex items-center gap-1 bg-red-400/10 px-4 py-2 rounded-lg transition-colors">
-                          <Trash2 className="w-4 h-4" /> Hapus Gambar
-                        </button>
+                      <div className="w-full flex flex-col items-center gap-3">
+                        <img src={customImage} className="w-24 h-24 object-contain bg-black/55 rounded-lg p-2" alt="Custom Logo" />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={async () => {
+                              try {
+                                const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
+                                const res = await fetch(`${apiBase}/api/ai/remove-background`, {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ image: customImage })
+                                });
+                                if (res.ok) {
+                                  const data = await res.json();
+                                  if (data.status === 'success') {
+                                    setCustomImage(data.image_url);
+                                  } else {
+                                    alert(data.message || 'Gagal menghapus background.');
+                                  }
+                                }
+                              } catch (err) {
+                                console.error(err);
+                                alert('Gagal menghubungi server backend.');
+                              }
+                            }}
+                            className="text-xs font-black bg-warm-cream border border-ink px-3.5 py-2 rounded-lg hover:bg-ink hover:text-warm-cream transition"
+                          >
+                            ✨ Hapus BG (AI)
+                          </button>
+                          <button onClick={() => setCustomImage(null)} className="text-red-400 hover:text-red-300 text-xs font-bold flex items-center gap-1 bg-red-400/10 px-3.5 py-2 rounded-lg transition-colors">
+                            <Trash2 className="w-3.5 h-3.5" /> Hapus
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>

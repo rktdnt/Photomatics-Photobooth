@@ -8,6 +8,7 @@ class PhotoSessionCreate(BaseModel):
     frame_id: str
     session_mode: str
     image_url: str
+    public_id: Optional[str] = None
 
 class PhotoSessionResponse(BaseModel):
     id: int
@@ -16,6 +17,7 @@ class PhotoSessionResponse(BaseModel):
     frame_id: str
     session_mode: str
     image_url: str
+    public_id: Optional[str]
     created_at: datetime
     
     class Config:
@@ -29,3 +31,8 @@ class QRCodeResponse(BaseModel):
 
 class UploadImageRequest(BaseModel):
     image: str  # Base64 string from frontend
+
+class UploadResponse(BaseModel):
+    url: str
+    public_id: str
+
