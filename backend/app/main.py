@@ -9,7 +9,14 @@ app = FastAPI(title="CTRL+Snap API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[config.FRONTEND_ORIGIN, "https://localhost:3000", "http://localhost:5173", "*"], 
+    allow_origins=[
+        config.FRONTEND_ORIGIN,
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "https://ctrlsnap.rypl.my.id",
+        "https://photomatics-photobooth-production.up.railway.app",
+        "*",  # allow all — tighten in production if needed
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

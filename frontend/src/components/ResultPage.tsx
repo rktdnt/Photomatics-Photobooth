@@ -176,7 +176,36 @@ const ResultPage: React.FC<Props> = ({ dataUrl, photos, onReset }) => {
     setGifState('loading');
     setGifError('');
     try {
-      // Pure client-side GIF encoding — no backend needed
+      // Try Railway backend first (Pillow = better quality + faster)
+      const apiBase = import.meta.env.VITE_API_URL || 'https://photomatics-photobooth-production.up.railway.app';
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout
+      try {
+        const res = await fetch(`${apiBase}/api/media/gif`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
+          body: JSON.stringify({
+            frames: photos.map(p => p.dataUrl),
+            fps: 6,
+            width: 480,
+            ping_pong: true,
+            quality: 82,
+          }),
+        });
+        clearTimeout(timeout);
+        if (res.ok) {
+          const data = await res.json();
+          setGifDataUrl(data.gif_base64);
+          setGifState('done');
+          return;
+        }
+      } catch {
+        clearTimeout(timeout);
+        // Backend down/timeout — fall through to client-side
+      }
+
+      // Fallback: pure client-side GIF encoding
       const gifDataUri = await encodeGif(
         photos.map(p => p.dataUrl),
         { fps: 6, width: 480, pingPong: true, quality: 8 }
