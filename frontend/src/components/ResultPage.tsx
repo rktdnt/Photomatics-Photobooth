@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Home, Share2, Download, History, Trash2, Camera, ExternalLink, Link, Sparkles, Loader2, AlertCircle, Clapperboard } from 'lucide-react';
 import { PhotostripLayout, PhotoFrame, CapturedPhoto } from '../types';
+import { encodeGif } from '../utils/gifEncoder';
 
 interface Props {
   dataUrl: string;
@@ -175,28 +176,16 @@ const ResultPage: React.FC<Props> = ({ dataUrl, photos, onReset }) => {
     setGifState('loading');
     setGifError('');
     try {
-      const apiBase = import.meta.env.VITE_API_URL || 'https://ctrlsnap.rypl.my.id';
-      const res = await fetch(`${apiBase}/api/media/gif`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          frames: photos.map(p => p.dataUrl),
-          fps: 6,
-          width: 480,
-          ping_pong: true,
-          quality: 82,
-        }),
-      });
-      if (!res.ok) {
-        const detail = await res.json().catch(() => ({ detail: res.statusText }));
-        throw new Error(detail.detail || res.statusText);
-      }
-      const data = await res.json();
-      setGifDataUrl(data.gif_base64);
+      // Pure client-side GIF encoding — no backend needed
+      const gifDataUri = await encodeGif(
+        photos.map(p => p.dataUrl),
+        { fps: 6, width: 480, pingPong: true, quality: 8 }
+      );
+      setGifDataUrl(gifDataUri);
       setGifState('done');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      setGifError(msg);
+      setGifError(`Gagal generate GIF: ${msg}`);
       setGifState('error');
     }
   };
@@ -380,9 +369,10 @@ const ResultPage: React.FC<Props> = ({ dataUrl, photos, onReset }) => {
                 ) : (
                   <div className="flex aspect-[3/4] w-full items-center justify-center rounded-3xl border-2 border-dashed border-ink/15 bg-white/40">
                     {gifState === 'loading' ? (
-                      <div className="flex flex-col items-center gap-3 text-soft-ink">
+                      <div className="flex flex-col items-center gap-3 text-soft-ink px-4 text-center">
                         <Loader2 className="w-8 h-8 animate-spin" />
-                        <span className="text-xs font-bold">Processing...</span>
+                        <span className="text-xs font-bold">Encoding di browser...</span>
+                        <span className="text-[10px] opacity-60">Ini mungkin makan 5–15 detik</span>
                       </div>
                     ) : (
                       <div className="flex flex-col items-center gap-2 text-soft-ink/50 px-4 text-center">
