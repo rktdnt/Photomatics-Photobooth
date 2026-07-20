@@ -195,7 +195,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
           CANVAS_HEIGHT = 2100;
           break;
         case 'grid-4':
-          CANVAS_HEIGHT = 720;
+          CANVAS_HEIGHT = (selectedFrame.id === 'powerbuff-snap' || selectedFrame.headerTitle) ? 1040 : 720;
           break;
       }
 
@@ -264,8 +264,8 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
 
       // 3. Draw Photos with aspect-fill and filter tint
       const startY = selectedFrame.id === 'powerbuff-snap' ? 200 : (selectedFrame.headerTitle ? 70 : 40);
-      const slotW = layout.id === 'grid-4' ? 256 : 520;
-      const slotH = layout.id === 'single-1' ? 500 : layout.id === 'classic-3' ? 410 : layout.id === 'strip-4' ? 380 : 250;
+      const slotW = layout.id === 'grid-4' ? 250 : 520;
+      const slotH = layout.id === 'single-1' ? 500 : layout.id === 'classic-3' ? 410 : layout.id === 'strip-4' ? 380 : ((selectedFrame.id === 'powerbuff-snap' || selectedFrame.headerTitle) ? 330 : 250);
       const cardPadding = 18;
       const photoW = slotW - (cardPadding * 2);
       const photoH = slotH - (cardPadding * 2) - (selectedFrame.slotLabels ? 30 : 0);
@@ -279,19 +279,19 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
         if (layout.id === 'grid-4') {
           const col = i % 2;
           const row = Math.floor(i / 2);
-          cardX = 32 + (col * (slotW + 24));
+          cardX = 35 + (col * (slotW + 30));
           cardY = startY + (row * (slotH + 30));
         }
 
-        // Left Dark Pill Accent for Powerbuff Snap
-        if (selectedFrame.id === 'powerbuff-snap' && !customFrameBgImage) {
+        // Left Dark Pill Accent for Powerbuff Snap (Column 0 only)
+        if (selectedFrame.id === 'powerbuff-snap' && !customFrameBgImage && (layout.id !== 'grid-4' || i % 2 === 0)) {
           ctx.save();
           ctx.fillStyle = '#1E202B';
           ctx.beginPath();
           if (typeof ctx.roundRect === 'function') {
-            ctx.roundRect(cardX - 22, cardY + 120, 16, 90, 8);
+            ctx.roundRect(cardX - 22, cardY + (slotH / 2 - 45), 16, 90, 8);
           } else {
-            ctx.fillRect(cardX - 22, cardY + 120, 16, 90);
+            ctx.fillRect(cardX - 22, cardY + (slotH / 2 - 45), 16, 90);
           }
           ctx.fill();
           ctx.restore();
@@ -522,7 +522,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
               backgroundImage: customFrameBgImage ? `url(${customFrameBgImage})` : 'none',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              aspectRatio: layout.id === 'single-1' ? '600/680' : layout.id === 'classic-3' ? '600/1600' : layout.id === 'strip-4' ? '600/2100' : '600/720',
+              aspectRatio: layout.id === 'single-1' ? '600/680' : layout.id === 'classic-3' ? '600/1600' : layout.id === 'strip-4' ? '600/2100' : (selectedFrame.id === 'powerbuff-snap' || selectedFrame.headerTitle) ? '600/1040' : '600/720',
               height: '100%',
               maxWidth: '280px'
             }}
@@ -533,7 +533,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
 
             {/* POWERBUFF SNAP HEADER */}
             {selectedFrame.id === 'powerbuff-snap' && !customFrameBgImage && (
-              <div className="relative z-10 bg-[#FFD8E6] px-4 pt-3 pb-2 text-center select-none flex flex-col items-center">
+              <div className="relative z-10 bg-[#FFD8E6] px-4 pt-3 pb-2 text-center select-none flex flex-col items-center flex-shrink-0">
                 <span className="absolute left-3 top-2.5 w-3.5 h-3.5 rounded-full bg-[#FF3B7B]" />
                 <span className="absolute right-3 top-2.5 w-3.5 h-3.5 rounded-full bg-[#00D494]" />
                 <div className="text-[12px] font-black tracking-wider text-[#1E202B] uppercase">
@@ -545,7 +545,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
 
             {/* Standard Header Title */}
             {selectedFrame.headerTitle && selectedFrame.id !== 'powerbuff-snap' && !customFrameBgImage && (
-              <div className="relative z-10 text-center py-2 flex flex-col items-center select-none">
+              <div className="relative z-10 text-center py-2 flex flex-col items-center select-none flex-shrink-0">
                 <div className="flex items-center gap-1.5 justify-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#FF85A1]" />
                   <span className="text-[10px] font-black tracking-wider uppercase" style={{ color: selectedFrame.textColor }}>
@@ -557,15 +557,15 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
               </div>
             )}
 
-            <div className={`relative z-10 w-full flex-1 flex p-3 ${layout.id === 'grid-4' ? 'flex-wrap gap-2.5' : 'flex-col gap-2.5 justify-center'}`}>
+            <div className={`relative z-10 w-full flex-1 flex p-3 ${layout.id === 'grid-4' ? 'flex-wrap gap-2.5 content-center' : 'flex-col gap-2.5 justify-center'}`}>
               {photos.map((p, i) => {
                 const slotBg = selectedFrame.slotBgColors ? selectedFrame.slotBgColors[i % selectedFrame.slotBgColors.length] : undefined;
                 const slotLabel = selectedFrame.slotLabels ? selectedFrame.slotLabels[i % selectedFrame.slotLabels.length] : undefined;
 
                 return (
-                  <div key={i} className="relative w-full flex items-center">
-                    {/* Left Dark Pill Accent for Powerbuff Snap */}
-                    {selectedFrame.id === 'powerbuff-snap' && (
+                  <div key={i} className={`relative flex items-center ${layout.id === 'grid-4' ? 'w-[calc(50%-5px)]' : 'w-full'}`}>
+                    {/* Left Dark Pill Accent for Powerbuff Snap (Column 0 only) */}
+                    {selectedFrame.id === 'powerbuff-snap' && (layout.id !== 'grid-4' || i % 2 === 0) && (
                       <div className="absolute -left-2 z-20 w-1.5 h-6 rounded-full bg-[#1E202B]" />
                     )}
 
@@ -574,7 +574,7 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
                         layout.id === 'single-1' ? 'aspect-[536/500]' :
                         layout.id === 'classic-3' ? 'aspect-[536/440]' :
                         layout.id === 'strip-4' ? 'aspect-[536/430]' :
-                        'w-[calc(50%-5px)] aspect-[252/260]'
+                        'w-full aspect-[250/330]'
                       }`}
                       style={{ backgroundColor: slotBg || 'transparent' }}
                     >
