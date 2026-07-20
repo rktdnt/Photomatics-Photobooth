@@ -470,6 +470,15 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
               ))}
             </div>
 
+            {/* Frame image overlay — rendered on top of photos */}
+            {(selectedFrame.imageUrl && !customFrameBgImage) && (
+              <img
+                src={selectedFrame.imageUrl}
+                className="absolute inset-0 w-full h-full object-cover z-50 pointer-events-none"
+                alt="frame overlay"
+              />
+            )}
+
             {customImage && (
               <img 
                 src={customImage} 
@@ -656,10 +665,47 @@ const PhotoEditor: React.FC<Props> = ({ photos, layout, initialFrame, sessionMod
             {/* Frame Tab */}
             {activeTab === 'frame' && (
               <div className="space-y-6 animate-fade-in">
+                {/* Image-based frames */}
                 <div>
-                  <h4 className="mb-3 text-[10px] font-black uppercase text-soft-ink tracking-wider">Frame Standar</h4>
+                  <h4 className="mb-3 text-[10px] font-black uppercase text-soft-ink tracking-wider">🎨 Frame Template</h4>
                   <div className="grid grid-cols-2 gap-3">
-                    {FRAMES.map(frame => (
+                    {FRAMES.filter(f => f.imageUrl).map(frame => (
+                      <button
+                        key={frame.id}
+                        onClick={() => {
+                          setSelectedFrame(frame);
+                          setCustomFrameBgImage(null);
+                        }}
+                        className={`relative overflow-hidden rounded-2xl border-2 transition-all aspect-[3/5] ${
+                          selectedFrame.id === frame.id && !customFrameBgImage
+                            ? 'border-ink shadow-lg scale-[1.02]'
+                            : 'border-transparent hover:border-ink/40 hover:scale-[1.01]'
+                        }`}
+                        style={{ backgroundColor: frame.bgColor }}
+                      >
+                        <img
+                          src={frame.imageUrl}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          alt={frame.name}
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-sm px-2 py-1.5 text-center">
+                          <div className="text-[10px] font-black text-white leading-tight">{frame.name}</div>
+                        </div>
+                        {selectedFrame.id === frame.id && !customFrameBgImage && (
+                          <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-ink flex items-center justify-center">
+                            <Check className="w-3 h-3 text-warm-cream" />
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Solid color frames */}
+                <div>
+                  <h4 className="mb-3 text-[10px] font-black uppercase text-soft-ink tracking-wider">🎨 Frame Solid</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    {FRAMES.filter(f => !f.imageUrl).map(frame => (
                       <button
                         key={frame.id}
                         onClick={() => {

@@ -14,6 +14,7 @@ export interface PhotoFrame {
   accentColor: string;
   pattern?: string;
   description: string;
+  imageUrl?: string; // Optional overlay frame image (PNG with transparent photo slots)
 }
 
 export interface Sticker {
@@ -75,12 +76,15 @@ export const LAYOUTS: PhotostripLayout[] = [
 ];
 
 export const FRAMES: PhotoFrame[] = [
+  // --- Image-based custom frames ---
+  { id: 'bubble-heart', name: 'Bubble Heart 🩷', bgColor: '#FF85A1', textColor: '#FFFFFF', borderClass: 'border-[#FF85A1]', accentColor: '#FFB3C6', description: 'Pink kawaii photostrip', imageUrl: '/images/frame_bubble_heart.png' },
+  { id: 'mint-power', name: 'Mint Power 🌿', bgColor: '#6ECFB0', textColor: '#FFFFFF', borderClass: 'border-[#6ECFB0]', accentColor: '#A8E6D4', description: 'Segar dan menyejukkan', imageUrl: '/images/frame_mint_power.png' },
+  { id: 'pop-flash', name: 'Pop Flash ⚡', bgColor: '#FFE566', textColor: '#252631', borderClass: 'border-[#FFE566]', accentColor: '#FFF0A0', description: 'Cerah energik ala pop art', imageUrl: '/images/frame_pop_flash.png' },
+  { id: 'sky-kick', name: 'Sky Kick 🩵', bgColor: '#87CEF0', textColor: '#FFFFFF', borderClass: 'border-[#87CEF0]', accentColor: '#B8E4F9', description: 'Langit biru yang dreamy', imageUrl: '/images/frame_sky_kick.png' },
+  // --- Solid color fallback frames ---
   { id: 'sleek-minimalist', name: 'Cloud White', bgColor: '#DCDADB', textColor: '#252631', borderClass: 'border-[#DCDADB]', accentColor: '#B2B5C9', description: 'Putih awan yang clean' },
   { id: 'obsidian-matte', name: 'Muted Blue', bgColor: '#B2B5C9', textColor: '#252631', borderClass: 'border-[#B2B5C9]', accentColor: '#F5E8D8', description: 'Biru lembut dan tenang' },
-  { id: 'tokyo-cyber', name: 'Warm Cream', bgColor: '#F5E8D8', textColor: '#252631', borderClass: 'border-[#F5E8D8]', accentColor: '#B2B5C9', description: 'Cream hangat seperti studio' },
-  { id: 'kpop-sweetheart', name: 'Blue Dot Cream', bgColor: '#F5E8D8', textColor: '#252631', borderClass: 'border-[#F5E8D8]', accentColor: '#B2B5C9', pattern: 'radial-dot', description: 'Cream dengan tekstur halus' },
   { id: 'vintage-kodak', name: 'Soft Contrast', bgColor: '#252631', textColor: '#F5E8D8', borderClass: 'border-[#252631]', accentColor: '#B2B5C9', description: 'Aksen gelap untuk premium' },
-  { id: 'lavender-aurora', name: 'Cloud Cream', bgColor: '#FBF7EF', textColor: '#252631', borderClass: 'border-[#FBF7EF]', accentColor: '#DCDADB', description: 'Netral dan airy' },
 ];
 
 export const FILTERS: PhotoFilter[] = [
